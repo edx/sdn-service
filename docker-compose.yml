@@ -1,0 +1,41 @@
+version: "2.1"
+services:
+  db:
+    image: mysql:8.0
+    container_name: sanctions.db
+    environment:
+      # See how these environment variables being used at https://github.com/mysql/mysql-docker/blob/mysql-server/8.0/docker-entrypoint.sh
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    networks:
+      - devstack_default
+    volumes:
+      - sanctions_mysql:/var/lib/mysql
+
+  memcache:
+    image: memcached:1.4.24
+    container_name: sanctions.memcache
+
+  app:
+    # Uncomment this line to use the official sanctions base image
+    image: openedx/sanctions
+
+    container_name: sanctions.app
+    volumes:
+      - .:/edx/app/sanctions/
+    command: bash -c 'while true; do python /edx/app/sanctions/manage.py runserver 0.0.0.0:18770; sleep 2; done'
+    environment:
+      DJANGO_SETTINGS_MODULE: sanctions.settings.devstack
+    ports:
+      - "18770:18770" # TODO: change this to your port
+    networks:
+      - devstack_default
+    stdin_open: true
+    tty: true
+
+networks:
+  devstack_default:
+    external: true
+
+volumes:
+  sanctions_mysql:
