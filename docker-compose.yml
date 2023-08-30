@@ -17,8 +17,7 @@ services:
     container_name: sanctions.memcache
 
   app:
-    # Uncomment this line to use the official sanctions base image
-    image: openedx/sanctions
+    build: .
 
     container_name: sanctions.app
     volumes:
@@ -27,7 +26,7 @@ services:
     environment:
       DJANGO_SETTINGS_MODULE: sanctions.settings.devstack
     ports:
-      - "18770:18770" # TODO: change this to your port
+      - "18770:18770"
     networks:
       - devstack_default
     stdin_open: true
