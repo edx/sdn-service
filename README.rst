@@ -42,7 +42,7 @@ One Time Setup
   bash provision-sanctions.sh
 
   # Run sanctions locally inside the virtual envioment
-  python manage.py runserver localhost:18770 --settings=sanctions.settings.local 
+  python manage.py runserver localhost:18770 --settings=sanctions.settings.local
 
 Every time you develop something in this repo
 ---------------------------------------------
