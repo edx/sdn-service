@@ -17,6 +17,9 @@ import sys
 from datetime import datetime
 from subprocess import check_call
 
+import django
+django.setup()
+
 
 def get_version(*file_paths):
     """
