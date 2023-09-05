@@ -1,0 +1,12 @@
+[run]
+branch = True
+data_file = .coverage
+source=sanctions
+omit =
+    sanctions/settings/*
+    sanctions/conf/*
+    *wsgi.py
+    */migrations/*
+    *admin.py
+    */static/*
+    */templates/*
