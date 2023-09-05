@@ -42,6 +42,7 @@ ENV LC_ALL en_US.UTF-8
 ENV DJANGO_SETTINGS_MODULE sanctions.settings.production
 
 EXPOSE 18770
+EXPOSE 18771
 RUN useradd -m --shell /bin/false app
 
 WORKDIR /edx/app/sanctions
