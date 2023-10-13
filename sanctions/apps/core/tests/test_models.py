@@ -23,23 +23,8 @@ class UserTests(TestCase):
         social_auth.save()
         self.assertEqual(user.access_token, access_token)
 
-    def test_get_full_name(self):
-        """ Test that the user model concatenates first and last name if the full name is not set. """
-        full_name = 'George Costanza'
-        user = G(User, full_name=full_name)
-        self.assertEqual(user.get_full_name(), full_name)
-
-        first_name = 'Jerry'
-        last_name = 'Seinfeld'
-        user = G(User, full_name=None, first_name=first_name, last_name=last_name)
-        expected = '{first_name} {last_name}'.format(first_name=first_name, last_name=last_name)
-        self.assertEqual(user.get_full_name(), expected)
-
-        user = G(User, full_name=full_name, first_name=first_name, last_name=last_name)
-        self.assertEqual(user.get_full_name(), full_name)
-
     def test_string(self):
-        """Verify that the model's string method returns the user's full name."""
-        full_name = 'Bob'
-        user = G(User, full_name=full_name)
-        self.assertEqual(str(user), full_name)
+        """Verify that the model's string method returns the user's username."""
+        username = 'Bob123'
+        user = G(User, username=username)
+        self.assertEqual(str(user), username)

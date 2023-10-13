@@ -14,7 +14,8 @@ class User(AbstractUser):
     .. pii_retirement: local_api
 
     """
-    full_name = models.CharField(_('Full Name'), max_length=255, blank=True, null=True)
+    lms_user_id = models.IntegerField(null=True, db_index=True)
+    username = models.CharField(max_length=255, blank=True, db_index=True)
 
     @property
     def access_token(self):
@@ -30,8 +31,8 @@ class User(AbstractUser):
     class Meta:
         get_latest_by = 'date_joined'
 
-    def get_full_name(self):
-        return self.full_name or super().get_full_name()
+    def get_username(self):
+        return self.username or super().get_username()
 
     def __str__(self):
-        return str(self.get_full_name())
+        return str(self.get_username())

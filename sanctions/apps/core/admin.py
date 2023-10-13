@@ -9,7 +9,8 @@ from sanctions.apps.core.models import User
 
 class CustomUserAdmin(UserAdmin):
     """ Admin configuration for the custom User model. """
-    list_display = ('username', 'email', 'full_name', 'first_name', 'last_name', 'is_staff')
+    list_display = ('username', 'lms_user_id', 'is_staff')
+    search_fields = ['lms_user_id']
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('full_name', 'first_name', 'last_name', 'email')}),
