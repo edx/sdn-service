@@ -5,6 +5,7 @@ Django         # Web application framework
 django-cors-headers
 django-extensions
 django-rest-swagger
+django-simple-history
 django-waffle
 djangorestframework
 edx-auth-backends
