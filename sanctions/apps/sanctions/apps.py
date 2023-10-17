@@ -1,0 +1,3 @@
+"""
+Sanctions app config
+"""
