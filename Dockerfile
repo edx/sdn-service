@@ -26,7 +26,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -qy install --no-in
  python3.8 python3-dev python3-pip \
  # The mysqlclient Python package has install-time dependencies
  libmysqlclient-dev libssl-dev pkg-config \
- gcc
+ gcc \
+ build-essential \
+ git \
+ wget
 
 
 RUN pip install --upgrade pip setuptools
@@ -66,3 +69,10 @@ CMD gunicorn --workers=2 --name sanctions -c /edx/app/sanctions/sanctions/docker
 # This line is after the requirements so that changes to the code will not
 # bust the image cache
 COPY . /edx/app/sanctions
+
+FROM app as devstack
+USER root
+COPY requirements/dev.txt /edx/app/sanctions/requirements/dev.txt
+RUN pip install -r requirements/dev.txt
+USER app
+CMD gunicorn --workers=2 --name sanctions -c /edx/app/sanctions/sanctions/docker_gunicorn_configuration.py --log-file - --max-requests=1000 sanctions.wsgi:application

@@ -17,8 +17,8 @@ services:
     container_name: sanctions.memcache
 
   app:
+    image: devstack
     build: .
-
     container_name: sanctions.app
     volumes:
       - .:/edx/app/sanctions/
