@@ -21,7 +21,11 @@ sanctions.HistoricalSanctionsCheckFailure:
   ".. no_pii:": "This model has no PII"
 sanctions.SanctionsFallbackMetadata:
   ".. no_pii:": "This model has no PII"
+sanctions.HistoricalSanctionsFallbackMetadata:
+  ".. no_pii:": "This model has no PII"  
 sanctions.SanctionsFallbackData:
+  ".. no_pii:": "This model has no PII"
+sanctions.HistoricalSanctionsFallbackData:
   ".. no_pii:": "This model has no PII"
 sessions.Session:
   ".. no_pii:": "This model has no PII"
