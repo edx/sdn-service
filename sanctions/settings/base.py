@@ -33,6 +33,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'release_util',
+    'simple_history',
 )
 
 THIRD_PARTY_APPS = (
@@ -47,6 +48,7 @@ THIRD_PARTY_APPS = (
 PROJECT_APPS = (
     'sanctions.apps.core',
     'sanctions.apps.api',
+    'sanctions.apps.sanctions',
 )
 
 INSTALLED_APPS += THIRD_PARTY_APPS
