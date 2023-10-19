@@ -9,7 +9,33 @@ from simple_history.models import HistoricalRecords
 
 
 class SanctionsCheckFailure(TimeStampedModel):
-    """ Record of SDN and ISN check failure. """
+    """
+    Model for recording SDN and ISN check failures.
+
+    Fields:
+    sanctions_type (Charfield): which type of check was done, ie. 'SDN' for now
+    until another type of sanctions is added in the future.
+
+    system_identifier (Charfield): which system/service is making the request to the sanctions service.
+
+    metadata (JSONField): JSON containing information associated to the sanctions failure,
+    like order_identifer, total, and purchase_type (single, program, bulk).
+
+    sdn_check_response (JSONField): response received for a hit when calling the trade.gov SDN API.
+
+    Example:
+        >>> SanctionsCheckFailure.objects.create(
+        full_name='Keyser Söze',
+        username='UnusualSuspect',
+        city='Boston',
+        country='US',
+        sanctions_type='SDN',
+        system_identifier='commerce-coordinator',
+        metadata={'order_identifer': 'EDX-123456', 'purchase_type': 'program', 'order_total': '989.00'},
+        sdn_check_response={'description': 'Looks a bit suspicious.'},
+        )
+
+    """
     history = HistoricalRecords()
     full_name = models.CharField(max_length=255)
     username = models.CharField(max_length=255)
@@ -18,9 +44,7 @@ class SanctionsCheckFailure(TimeStampedModel):
     country = models.CharField(max_length=2)
     sanctions_type = models.CharField(max_length=255)
     system_identifier = models.CharField(max_length=255)
-    order_identifier = models.CharField(max_length=128, default=None, null=True)
-    order_type = models.CharField(max_length=255)
-    order_total = models.DecimalField(null=True, decimal_places=2, max_digits=12)
+    metadata = models.JSONField()
     sdn_check_response = models.JSONField()
 
     class Meta:
