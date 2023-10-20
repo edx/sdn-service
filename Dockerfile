@@ -20,23 +20,47 @@ MAINTAINER sre@edx.org
 
 # gcc; for compiling python extensions distributed with python packages like mysql-client
 
+
+# set timezone to prevent geographic location from hanging see https://dev.to/grigorkh/fix-tzdata-hangs-during-docker-image-build-4o9m
+ENV TZ=Etc/UTC
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo
+
+
 # If you add a package here please include a comment above describing what it is used for
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -qy install --no-install-recommends \
- language-pack-en locales \
- python3.8 python3-dev python3-pip \
- # The mysqlclient Python package has install-time dependencies
- libmysqlclient-dev libssl-dev pkg-config \
+ language-pack-en \
+ locales \
+ python3.9 \
+ python3.9-dev \
+ python3-pip \
+ pkg-config \
+ libmysqlclient-dev \
+ libssl-dev \
  gcc \
  build-essential \
  git \
- wget
+ wget \
+ curl
 
+# Create a symbolic link between python3 and python3.9
+RUN ln -s /usr/bin/python3.9 /usr/bin/python
+
+# Need to overwrite python3 with python3.9 as well, because
+# helm template invokes `python3` directly in migrations init container
+RUN ln -sf /usr/bin/python3.9 /usr/bin/python3
+
+# Install pip for Python 3.9
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python get-pip.py && \
+    rm get-pip.py
+
+# Create a symbolic link between pip and pip3.9
+RUN ln -sf /usr/bin/pip3 /usr/bin/pip
 
 RUN pip install --upgrade pip setuptools
+
 # delete apt package lists because we do not need them inflating our image
 RUN rm -rf /var/lib/apt/lists/*
-
-RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
