@@ -95,6 +95,13 @@ ROOT_URLCONF = 'sanctions.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'sanctions.wsgi.application'
 
+# SDN Check
+SDN_CHECK_REQUEST_TIMEOUT = 5  # Value is in seconds.
+
+# Settings to check government purchase restriction lists
+SDN_CHECK_API_URL = "https://data.trade.gov/consolidated_screening_list/v1/search"
+SDN_CHECK_API_KEY = "replace-me"
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 # Set this value in the environment-specific files (e.g. local.py, production.py, test.py)
@@ -227,6 +234,14 @@ JWT_AUTH = {
     'JWT_AUTH_COOKIE': 'edx-jwt-cookie',
     'JWT_AUTH_COOKIE_HEADER_PAYLOAD': 'edx-jwt-cookie-header-payload',
     'JWT_AUTH_COOKIE_SIGNATURE': 'edx-jwt-cookie-signature',
+    'JWT_AUTH_REFRESH_COOKIE': 'edx-jwt-refresh-cookie',
+    'JWT_ISSUERS': [
+        {
+            'AUDIENCE': 'SET-ME-PLEASE',
+            'ISSUER': 'http://localhost:18000/oauth2',
+            'SECRET_KEY': 'SET-ME-PLEASE'
+        },
+    ],
 }
 
 # Request the user's permissions in the ID token
