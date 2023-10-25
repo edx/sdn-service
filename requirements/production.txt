@@ -17,7 +17,7 @@ cffi==1.16.0
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==3.3.0
+charset-normalizer==3.3.1
     # via
     #   -r requirements/base.txt
     #   requests
@@ -34,7 +34,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-cryptography==41.0.4
+cryptography==41.0.5
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -104,7 +104,7 @@ edx-rest-api-client==5.6.1
     # via -r requirements/base.txt
 gevent==23.9.1
     # via -r requirements/production.in
-greenlet==3.0.0
+greenlet==3.0.1
     # via gevent
 gunicorn==21.2.0
     # via -r requirements/production.in
@@ -128,7 +128,7 @@ mysqlclient==2.2.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
-newrelic==9.1.0
+newrelic==9.1.1
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
