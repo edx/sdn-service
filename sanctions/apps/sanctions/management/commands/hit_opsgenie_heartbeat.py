@@ -1,3 +1,6 @@
+"""
+Dummy management command to prove we can hit an opsgenie heart beat from a cronjob
+"""
 import logging
 
 import opsgenie_sdk
@@ -9,6 +12,9 @@ logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
+    """
+    Dummy management command to prove we can hit an opsgenie heart beat from a cronjob
+    """
     help = (
         'Dummy management command to prove we can hit an opsgenie heart beat from a cronjob'
     )
