@@ -14,5 +14,6 @@ edx-django-release-util
 edx-drf-extensions
 edx-rest-api-client
 mysqlclient
+opsgenie_sdk
 pytz
 responses
