@@ -9,12 +9,12 @@ from rest_framework.reverse import reverse
 from test_utils import APITest
 
 
-class TestSanctionsCheckView(APITest):
-    """ Test SanctionsCheckView. """
+class TestSDNCheckView(APITest):
+    """ Test SDNCheckView. """
 
     def setUp(self):
         super().setUp()
-        self.url = reverse('api:v1:sanctions-check')
+        self.url = reverse('api:v1:sdn-check')
         self.post_data = {
             'lms_user_id': self.user.lms_user_id,
             'full_name': 'Din Grogu',

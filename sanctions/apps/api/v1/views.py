@@ -14,7 +14,7 @@ from sanctions.apps.sanctions.utils import SanctionsClient
 logger = logging.getLogger(__name__)
 
 
-class SanctionsCheckView(views.APIView):
+class SDNCheckView(views.APIView):
     """
     View for external services to run SDN/ISN checks against.
     """
@@ -55,13 +55,13 @@ class SanctionsCheckView(views.APIView):
 
         try:
             logger.info(
-                'SanctionsCheckView: calling the SDN Client for SDN check for user %s.',
+                'SDNCheckView: calling the SDN Client for SDN check for user %s.',
                 lms_user_id
             )
             response = sdn_check.search(lms_user_id, full_name, city, country)
         except (HTTPError, Timeout) as e:
             logger.info(
-                'SanctionsCheckView: SDN API call received an error: %s.'
+                'SDNCheckView: SDN API call received an error: %s.'
                 ' Calling SanctionsFallback function for user %s.',
                 str(e),
                 lms_user_id
@@ -78,13 +78,13 @@ class SanctionsCheckView(views.APIView):
         hit_count = response['total']
         if hit_count > 0:
             logger.info(
-                'SanctionsCheckView request received for lms user [%s]. It received %d hit(s).',
+                'SDNCheckView request received for lms user [%s]. It received %d hit(s).',
                 lms_user_id,
                 hit_count,
             )
         else:
             logger.info(
-                'SanctionsCheckView request received for lms user [%s]. It did not receive a hit.',
+                'SDNCheckView request received for lms user [%s]. It did not receive a hit.',
                 lms_user_id,
             )
 
