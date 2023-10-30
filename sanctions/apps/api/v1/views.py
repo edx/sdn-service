@@ -9,7 +9,7 @@ from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthenticat
 from requests.exceptions import HTTPError, Timeout
 from rest_framework import permissions, views
 
-from sanctions.apps.sanctions.utils import SanctionsClient
+from sanctions.apps.api_client.sdn_client import SDNClient
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +47,7 @@ class SDNCheckView(views.APIView):
         country = payload.get('country')
         sdn_list = payload.get('sdn_list', 'ISN,SDN')  # Set SDN lists to a sane default
 
-        sdn_check = SanctionsClient(
+        sdn_check = SDNClient(
             api_url=settings.SDN_CHECK_API_URL,
             api_key=settings.SDN_CHECK_API_KEY,
             sdn_list=sdn_list

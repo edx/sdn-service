@@ -29,7 +29,7 @@ class TestSDNCheckView(APITest):
 
     # TODO: add test for test_sdn_check_search_fails_uses_fallback
 
-    @mock.patch('sanctions.apps.sanctions.utils.SanctionsClient.search')
+    @mock.patch('sanctions.apps.api_client.sdn_client.SDNClient.search')
     def test_sdn_check_search_succeeds(
         self,
         mock_search
