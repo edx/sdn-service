@@ -4,7 +4,6 @@ Dummy management command to prove we can hit an opsgenie heart beat from a cronj
 import logging
 
 import opsgenie_sdk
-
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
