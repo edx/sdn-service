@@ -71,6 +71,7 @@ cryptography==41.0.5
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
     #   pyjwt
+    #   secretstorage
     #   social-auth-core
 ddt==1.6.0
     # via
@@ -168,7 +169,7 @@ edx-django-utils==5.7.0
     #   -r requirements/test.txt
     #   edx-drf-extensions
     #   edx-rest-api-client
-edx-drf-extensions==8.12.0
+edx-drf-extensions==8.13.0
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
@@ -194,12 +195,12 @@ factory-boy==3.3.0
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
-faker==19.12.0
+faker==19.12.1
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
     #   factory-boy
-filelock==3.12.4
+filelock==3.13.1
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
@@ -238,6 +239,11 @@ jaraco-classes==3.3.0
     # via
     #   -r requirements/quality.txt
     #   keyring
+jeepney==0.8.0
+    # via
+    #   -r requirements/quality.txt
+    #   keyring
+    #   secretstorage
 jinja2==3.1.2
     # via
     #   -r requirements/quality.txt
@@ -403,7 +409,7 @@ pytest-cov==4.1.0
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
-pytest-django==4.5.2
+pytest-django==4.6.0
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
@@ -434,6 +440,7 @@ pyyaml==6.0.1
     #   -r requirements/test.txt
     #   code-annotations
     #   edx-django-release-util
+    #   responses
 readme-renderer==42.0
     # via
     #   -r requirements/quality.txt
@@ -447,6 +454,7 @@ requests==2.31.0
     #   edx-rest-api-client
     #   requests-oauthlib
     #   requests-toolbelt
+    #   responses
     #   slumber
     #   social-auth-core
     #   twine
@@ -459,6 +467,10 @@ requests-toolbelt==1.0.0
     # via
     #   -r requirements/quality.txt
     #   twine
+responses==0.23.3
+    # via
+    #   -r requirements/quality.txt
+    #   -r requirements/test.txt
 rfc3986==2.0.0
     # via
     #   -r requirements/quality.txt
@@ -467,6 +479,10 @@ rich==13.6.0
     # via
     #   -r requirements/quality.txt
     #   twine
+secretstorage==3.3.3
+    # via
+    #   -r requirements/quality.txt
+    #   keyring
 semantic-version==2.10.0
     # via
     #   -r requirements/quality.txt
@@ -500,7 +516,7 @@ social-auth-app-django==5.4.0
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
     #   edx-auth-backends
-social-auth-core==4.4.2
+social-auth-core==4.5.0
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
@@ -542,6 +558,11 @@ tox==3.28.0
     #   -r requirements/test.txt
 twine==4.0.2
     # via -r requirements/quality.txt
+types-pyyaml==6.0.12.12
+    # via
+    #   -r requirements/quality.txt
+    #   -r requirements/test.txt
+    #   responses
 typing-extensions==4.8.0
     # via
     #   -r requirements/quality.txt
@@ -562,6 +583,7 @@ urllib3==2.0.7
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
     #   requests
+    #   responses
     #   twine
 virtualenv==20.24.6
     # via
