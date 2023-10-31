@@ -15,3 +15,4 @@ edx-drf-extensions
 edx-rest-api-client
 mysqlclient
 pytz
+responses

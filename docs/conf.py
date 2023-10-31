@@ -184,6 +184,7 @@ html_theme = 'sphinx_book_theme'
 # documentation.
 #
 html_theme_options = {
+    "navigation_with_keys": False,
     "repository_url": "https://github.com/edx/sanctions",
     "repository_branch": 'main',
     "path_to_docs": "docs/",
