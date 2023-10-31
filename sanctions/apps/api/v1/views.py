@@ -45,12 +45,12 @@ class SDNCheckView(views.APIView):
         full_name = payload.get('full_name')
         city = payload.get('city')
         country = payload.get('country')
-        sdn_list = payload.get('sdn_list', 'ISN,SDN')  # Set SDN lists to a sane default
+        sdn_api_list = payload.get('sdn_api_list', 'ISN,SDN')  # Set SDN lists to a sane default
 
         sdn_check = SDNClient(
-            api_url=settings.SDN_CHECK_API_URL,
-            api_key=settings.SDN_CHECK_API_KEY,
-            sdn_list=sdn_list
+            sdn_api_url=settings.SDN_CHECK_API_URL,
+            sdn_api_key=settings.SDN_CHECK_API_KEY,
+            sdn_api_list=sdn_api_list
         )
 
         try:

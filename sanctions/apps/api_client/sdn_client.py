@@ -11,12 +11,12 @@ logger = logging.getLogger(__name__)
 
 
 class SDNClient:
-    """A utility class that handles SDN related operations."""
+    """API client that handles calls to the US Treasury SDN API."""
 
-    def __init__(self, api_url, api_key, sdn_list):
-        self.api_url = api_url
-        self.api_key = api_key
-        self.sdn_list = sdn_list
+    def __init__(self, sdn_api_url, sdn_api_key, sdn_api_list):
+        self.sdn_api_url = sdn_api_url
+        self.sdn_api_key = sdn_api_key
+        self.sdn_api_list = sdn_api_list
 
     def search(self, lms_user_id, name, city, country):
         """
@@ -37,7 +37,7 @@ class SDNClient:
         dict: SDN API response.
         """
         params_dict = {
-            'sources': self.sdn_list,
+            'sources': self.sdn_api_list,
             'type': 'individual',
             'name': str(name).encode('utf-8'),
             # We are using the city as the address parameter value as indicated in the documentation:
@@ -47,14 +47,14 @@ class SDNClient:
         }
         params = urlencode(params_dict)
         sdn_check_url = '{api_url}?{params}'.format(
-            api_url=self.api_url,
+            api_url=self.sdn_api_url,
             params=params
         )
-        auth_header = {'subscription-key': '{}'.format(self.api_key)}
+        auth_header = {'subscription-key': '{}'.format(self.sdn_api_key)}
 
         try:
             logger.info(
-                'SactionsCheck: starting the request to the US Treasury SDN API for %s.',
+                'Sactions SDNCheck: starting the request to the US Treasury SDN API for %s.',
                 lms_user_id
             )
             response = requests.get(
@@ -64,17 +64,17 @@ class SDNClient:
             )
         except requests.exceptions.Timeout:
             logger.warning(
-                'SanctionsCheck: Connection to US Treasury SDN API timed out for [%s].',
+                'Sanctions SDNCheck: Connection to the US Treasury SDN API timed out for [%s].',
                 name
             )
             raise
 
         if response.status_code != 200:
             logger.warning(
-                'SanctionsCheck: Unable to connect to US Treasury SDN API for [%s].'
+                'Sanctions SDNCheck: Unable to connect to the US Treasury SDN API for [%s].'
                 'Status code [%d] with message: [%s]',
                 name, response.status_code, response.content
             )
-            raise requests.exceptions.HTTPError('Unable to connect to SDN API')
+            raise requests.exceptions.HTTPError('Unable to connect to the SDN API')
 
         return response.json()
