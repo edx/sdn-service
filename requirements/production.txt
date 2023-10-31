@@ -250,17 +250,14 @@ stevedore==5.1.0
     #   -r requirements/base.txt
     #   edx-django-utils
     #   edx-opaque-keys
-<<<<<<< HEAD
-types-pyyaml==6.0.12.12
-    # via
-    #   -r requirements/base.txt
-    #   responses
-=======
 tenacity==8.2.3
     # via
     #   -r requirements/base.txt
     #   opsgenie-sdk
->>>>>>> 3cd3e59 (feat: add opsgenie heartbeat code)
+types-pyyaml==6.0.12.12
+    # via
+    #   -r requirements/base.txt
+    #   responses
 typing-extensions==4.8.0
     # via
     #   -r requirements/base.txt
