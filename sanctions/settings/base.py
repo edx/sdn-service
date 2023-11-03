@@ -97,7 +97,8 @@ WSGI_APPLICATION = 'sanctions.wsgi.application'
 
 # SDN Check
 SDN_CHECK_REQUEST_TIMEOUT = 5  # Value is in seconds.
-
+# Settings to download the government CSL list
+SDN_CSL_LIST_URL = "https://data.trade.gov/downloadable_consolidated_screening_list/v1/consolidated.csv"
 # Settings to check government purchase restriction lists
 SDN_CHECK_API_URL = "https://data.trade.gov/consolidated_screening_list/v1/search"
 SDN_CHECK_API_KEY = "replace-me"
