@@ -1,11 +1,15 @@
 """
 Models for the sanctions app
 """
+import logging
+
 from django.core.validators import MinLengthValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from simple_history.models import HistoricalRecords
+
+logger = logging.getLogger(__name__)
 
 
 class SanctionsCheckFailure(TimeStampedModel):
@@ -117,3 +121,23 @@ class SanctionsFallbackData(models.Model):
     names = models.TextField(default='')
     addresses = models.TextField(default='')
     countries = models.CharField(default='', max_length=255)
+
+    @classmethod
+    def get_current_records_and_filter_by_source_and_type(cls, source, sdn_type):
+        """
+        Query the records that have 'Current' import state, and filter by source and sdn_type.
+        """
+        try:
+            current_metadata = SanctionsFallbackMetadata.objects.get(import_state='Current')
+
+        # The 'get' relies on the manage command having been run. If it fails, tell engineer what's needed
+        except SanctionsFallbackMetadata.DoesNotExist as fallback_metadata_no_exist:
+            logger.warning(
+                "Sanctions SDNFallback: SDNFallbackMetadata is empty! Run this: "
+                "./manage.py populate_sdn_fallback_data_and_metadata"
+            )
+            raise Exception(
+                'Sanctions SDNFallback empty error when calling checkSDNFallback, data is not yet populated.'
+            ) from fallback_metadata_no_exist
+        query_params = {'source': source, 'sdn_fallback_metadata': current_metadata, 'sdn_type': sdn_type}
+        return SanctionsFallbackData.objects.filter(**query_params)
