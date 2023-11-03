@@ -1,10 +1,20 @@
 """
 Helpers for the sanctions app.
 """
+import csv
+import hashlib
+import io
+import logging
 import re
 import unicodedata
+from datetime import datetime, timezone
 
-from sanctions.apps.sanctions.models import SanctionsFallbackData
+import pycountry
+
+from sanctions.apps.sanctions.models import SanctionsFallbackData, SanctionsFallbackMetadata
+
+logger = logging.getLogger(__name__)
+COUNTRY_CODES = {country.alpha_2 for country in pycountry.countries}
 
 
 def checkSDNFallback(name, city, country):
@@ -77,3 +87,101 @@ def process_text(text):
     text = set(filter(None, set(re.split(r'[\W_]+', text))))
 
     return text
+
+
+def extract_country_information(addresses, ids):
+    """
+    Extract any country codes that are present, if any, in the addresses and ids fields
+
+    Args:
+        addresses (str): addresses from the csv addresses field
+        ids (str): ids from the csv ids field
+
+    Returns:
+        countries (str): Space separated list of alpha_2 country codes present in the addresses and ids fields
+    """
+    country_matches = []
+    if addresses:
+        # Addresses are stored in a '; ' separated format with the country at the end of each address
+        # We check for two uppercase letters followed by '; ' or at the end of the string
+        addresses_regex = r'([A-Z]{2})$|([A-Z]{2});'
+        country_matches += re.findall(addresses_regex, addresses)
+    if ids:
+        # Ids are stored in a '; ' separated format with the country at the beginning of each id
+        # Countries within the id are followed by a comma
+        # We check for two uppercase letters prefaced by '; ' or at the beginning of a string
+        # Notes are also stored in this field in sentence case, so checking for two uppercase letters handles this
+        ids_regex = r'^([A-Z]{2}),|; ([A-Z]{2}),'
+        country_matches += re.findall(ids_regex, ids)
+    # country_matches is returned in the following format [('', 'IQ'), ('', 'JO'), ('', 'IQ'), ('', 'TR')]
+    # We filter out regex groups with no match, deduplicate countries, and convert them to a space separated string
+    # with the following format 'IQ JO TR'
+    country_codes = {' '.join(tuple(filter(None, x))) for x in country_matches}
+    valid_country_codes = COUNTRY_CODES.intersection(country_codes)
+    formatted_countries = ' '.join(valid_country_codes)
+    return formatted_countries
+
+
+def populate_sdn_fallback_metadata(sdn_csv_string):
+    """
+    Insert a new SanctionsFallbackMetadata entry if the new csv differs from the current one
+
+    Args:
+        sdn_csv_string (bytes): Bytes of the sdn csv
+
+    Returns:
+        sdn_fallback_metadata_entry (SanctionsFallbackMetadata): Instance of the current SanctionsFallbackMetadata class
+        or None if none exists
+    """
+    file_checksum = hashlib.sha256(sdn_csv_string.encode('utf-8')).hexdigest()
+    metadata_entry = SanctionsFallbackMetadata.insert_new_sdn_fallback_metadata_entry(file_checksum)
+    return metadata_entry
+
+
+def populate_sdn_fallback_data(sdn_csv_string, metadata_entry):
+    """
+    Process CSV data and create SanctionsFallbackData records
+
+    Args:
+        sdn_csv_string (str): String of the sdn csv
+        metadata_entry (SanctionsFallbackMetadata): Instance of the current SanctionsFallbackMetadata class
+    """
+    sdn_csv_reader = csv.DictReader(io.StringIO(sdn_csv_string))
+    processed_records = []
+    for row in sdn_csv_reader:
+        sdn_source, sdn_type, names, addresses, alt_names, ids = (
+            row['source'] or '', row['type'] or '', row['name'] or '',
+            row['addresses'] or '', row['alt_names'] or '', row['ids'] or ''
+        )
+        processed_names = ' '.join(process_text(' '.join(filter(None, [names, alt_names]))))
+        processed_addresses = ' '.join(process_text(addresses))
+        countries = extract_country_information(addresses, ids)
+        processed_records.append(SanctionsFallbackData(
+            sanctions_fallback_metadata=metadata_entry,
+            source=sdn_source,
+            sdn_type=sdn_type,
+            names=processed_names,
+            addresses=processed_addresses,
+            countries=countries
+        ))
+    # Bulk create should be more efficient for a few thousand records without needing to use SQL directly.
+    SanctionsFallbackData.objects.bulk_create(processed_records)
+
+
+def populate_sdn_fallback_data_and_metadata(sdn_csv_string):
+    """
+    1. Create the SanctionsFallbackMetadata entry
+    2. Populate the SanctionsFallbackData from the csv
+
+    Args:
+        sdn_csv_string (str): String of the sdn csv
+    """
+    metadata_entry = populate_sdn_fallback_metadata(sdn_csv_string)
+    if metadata_entry:
+        populate_sdn_fallback_data(sdn_csv_string, metadata_entry)
+        # Once data is successfully imported, update the metadata import timestamp and state
+        now = datetime.now(timezone.utc)
+        metadata_entry.import_timestamp = now
+        metadata_entry.save()
+        metadata_entry.swap_all_states()
+    return metadata_entry

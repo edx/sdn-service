@@ -2,9 +2,11 @@
 Models for the sanctions app
 """
 import logging
+from datetime import datetime
 
 from django.core.validators import MinLengthValidator
 from django.db import models
+from django.db.transaction import atomic
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from simple_history.models import HistoricalRecords
@@ -85,6 +87,94 @@ class SanctionsFallbackMetadata(TimeStampedModel):
         choices=IMPORT_STATES,
         default='New',
     )
+
+    @classmethod
+    def insert_new_sdn_fallback_metadata_entry(cls, file_checksum):
+        """
+        Insert a new SanctionsFallbackMetadata entry if the new CSV differs from the current one.
+        If there is no current metadata entry, create a new one and log a warning.
+
+        Args:
+            file_checksum (str): Hash of the CSV content
+
+        Returns:
+            sanctions_fallback_metadata_entry (SanctionsFallbackMetadata): Instance of the current SanctionsFallbackMetadata class
+            or None if none exists
+        """
+        now = datetime.utcnow()
+        try:
+            if file_checksum == SanctionsFallbackMetadata.objects.get(import_state='Current').file_checksum:
+                logger.info(
+                    "SanctionsFallback: The CSV file has not changed, so skipping import. The file_checksum was %s",
+                    file_checksum)
+                # Update download timestamp even though we're not importing this list
+                SanctionsFallbackMetadata.objects.filter(import_state="New").update(download_timestamp=now)
+                return None
+        except SanctionsFallbackMetadata.DoesNotExist:
+            logger.warning("SanctionsFallback: SanctionsFallbackMetadata has no record with import_state Current")
+
+        sanctions_fallback_metadata_entry = SanctionsFallbackMetadata.objects.create(
+            file_checksum=file_checksum,
+            download_timestamp=now,
+        )
+        return sanctions_fallback_metadata_entry
+
+    @classmethod
+    @atomic
+    def swap_all_states(cls):
+        """
+        Shifts all of the existing metadata table rows to the next import_state
+        in the row's lifecycle (see _swap_state).
+
+        This method is done in a transaction to gurantee that existing metadata rows are
+        shifted into their next states in sync and tries to ensure that there is always a row
+        in the 'Current' state. Rollbacks of all row's import_state changes will happen if:
+        1) There are multiple rows & none of them are 'Current', or
+        2) There are any issues with the existing rows + updating them (e.g. a row with a
+        duplicate import_state is manually inserted into the table during the transaction)
+        """
+        SanctionsFallbackMetadata._swap_state('Discard')
+        SanctionsFallbackMetadata._swap_state('Current')
+        SanctionsFallbackMetadata._swap_state('New')
+
+        # After the above swaps happen:
+        # If there are 0 rows in the table, there cannot be a row in the 'Current' status.
+        # If there is 1 row in the table, it is expected to be in the 'Current' status
+        # (e.g. when the first file is added + just swapped).
+        # If there are 2 rows in the table, after the swaps, we expect to have one row in
+        # the 'Current' status and one row in the 'Discard' status.
+        if len(SanctionsFallbackMetadata.objects.all()) >= 1:
+            try:
+                SanctionsFallbackMetadata.objects.get(import_state='Current')
+            except SanctionsFallbackMetadata.DoesNotExist:
+                logger.warning(
+                    "SanctionsFallback: Expected a row in the 'Current' import_state after swapping, but there are none.",
+                )
+                raise
+
+    @classmethod
+    def _swap_state(cls, import_state):
+        """
+        Update the row in the given import_state parameter to the next import_state.
+        Rows in this table should progress from New -> Current -> Discard -> (row deleted).
+        There can be at most one row in each import_state at a given time.
+        """
+        try:
+            existing_metadata = SanctionsFallbackMetadata.objects.get(import_state=import_state)
+            if import_state == 'Discard':
+                existing_metadata.delete()
+            else:
+                if import_state == 'New':
+                    existing_metadata.import_state = 'Current'
+                elif import_state == 'Current':
+                    existing_metadata.import_state = 'Discard'
+                existing_metadata.full_clean()
+                existing_metadata.save()
+        except SanctionsFallbackMetadata.DoesNotExist:
+            logger.info(
+                "SanctionsFallback: Cannot update import_state of %s row if there is no row in this state.",
+                import_state
+            )
 
 
 class SanctionsFallbackData(models.Model):
