@@ -10,6 +10,7 @@ from requests.exceptions import HTTPError, Timeout
 from rest_framework import permissions, views
 
 from sanctions.apps.api_client.sdn_client import SDNClient
+from sanctions.apps.sanctions.utils import checkSDNFallback
 
 logger = logging.getLogger(__name__)
 
@@ -67,13 +68,12 @@ class SDNCheckView(views.APIView):
                 lms_user_id
             )
 
-            # Temp: return 400 until the SDN Fallback check logic is implemented.
-            json_data = {
-                'error': e,
-            }
-            return JsonResponse(json_data, status=400)
-
-            # TODO: add SDN fallback check to determine hit count.
+            sdn_fallback_hit_count = checkSDNFallback(
+                full_name,
+                city,
+                country
+            )
+            response = {'total': sdn_fallback_hit_count}
 
         hit_count = response['total']
         if hit_count > 0:
