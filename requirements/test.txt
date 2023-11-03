@@ -22,7 +22,7 @@ cffi==1.16.0
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==3.3.1
+charset-normalizer==3.3.2
     # via
     #   -r requirements/base.txt
     #   requests
@@ -117,7 +117,7 @@ edx-auth-backends==4.2.0
     # via -r requirements/base.txt
 edx-django-release-util==1.3.0
     # via -r requirements/base.txt
-edx-django-utils==5.7.0
+edx-django-utils==5.8.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
@@ -136,7 +136,7 @@ exceptiongroup==1.1.3
     # via pytest
 factory-boy==3.3.0
     # via -r requirements/test.in
-faker==19.12.1
+faker==19.13.0
     # via
     #   -r requirements/test.in
     #   factory-boy
@@ -208,6 +208,8 @@ psutil==5.9.6
     #   edx-django-utils
 py==1.11.0
     # via tox
+pycountry==22.3.5
+    # via -r requirements/base.txt
 pycparser==2.21
     # via
     #   -r requirements/base.txt
@@ -287,7 +289,7 @@ requests-oauthlib==1.3.1
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-responses==0.23.3
+responses==0.24.0
     # via -r requirements/base.txt
 semantic-version==2.10.0
     # via
@@ -333,6 +335,8 @@ tenacity==8.2.3
     # via
     #   -r requirements/base.txt
     #   opsgenie-sdk
+testfixtures==7.2.2
+    # via -r requirements/base.txt
 text-unidecode==1.3
     # via python-slugify
 tomli==2.0.1
@@ -341,16 +345,12 @@ tomli==2.0.1
     #   pylint
     #   pytest
     #   tox
-tomlkit==0.12.1
+tomlkit==0.12.2
     # via pylint
 tox==3.28.0
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/test.in
-types-pyyaml==6.0.12.12
-    # via
-    #   -r requirements/base.txt
-    #   responses
 typing-extensions==4.8.0
     # via
     #   -r requirements/base.txt

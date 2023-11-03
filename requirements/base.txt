@@ -14,7 +14,7 @@ cffi==1.16.0
     # via
     #   cryptography
     #   pynacl
-charset-normalizer==3.3.1
+charset-normalizer==3.3.2
     # via requests
 click==8.1.7
     # via edx-django-utils
@@ -32,7 +32,7 @@ defusedxml==0.8.0rc2
     # via
     #   python3-openid
     #   social-auth-core
-django==3.2.22
+django==3.2.23
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.in
@@ -76,7 +76,7 @@ edx-auth-backends==4.2.0
     # via -r requirements/base.in
 edx-django-release-util==1.3.0
     # via -r requirements/base.in
-edx-django-utils==5.7.0
+edx-django-utils==5.8.0
     # via
     #   -r requirements/base.in
     #   edx-drf-extensions
@@ -111,6 +111,8 @@ pbr==5.11.1
     # via stevedore
 psutil==5.9.6
     # via edx-django-utils
+pycountry==22.3.5
+    # via -r requirements/base.in
 pycparser==2.21
     # via cffi
 pyjwt[crypto]==2.8.0
@@ -149,7 +151,7 @@ requests==2.31.0
     #   social-auth-core
 requests-oauthlib==1.3.1
     # via social-auth-core
-responses==0.23.3
+responses==0.24.0
     # via -r requirements/base.in
 semantic-version==2.10.0
     # via edx-drf-extensions
@@ -177,8 +179,8 @@ stevedore==5.1.0
     #   edx-opaque-keys
 tenacity==8.2.3
     # via opsgenie-sdk
-types-pyyaml==6.0.12.12
-    # via responses
+testfixtures==7.2.2
+    # via -r requirements/base.in
 typing-extensions==4.8.0
     # via
     #   asgiref
