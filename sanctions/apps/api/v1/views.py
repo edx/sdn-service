@@ -63,7 +63,7 @@ class SDNCheckView(views.APIView):
         except (HTTPError, Timeout) as e:
             logger.info(
                 'SDNCheckView: SDN API call received an error: %s.'
-                ' Calling SanctionsFallback function for user %s.',
+                ' Calling sanctions checkSDNFallback function for user %s.',
                 str(e),
                 lms_user_id
             )

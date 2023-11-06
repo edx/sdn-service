@@ -1,5 +1,5 @@
 """
-Tests for Django management command to download csv for SDN fallback.
+Tests for Django management command to download CSV for SDN Fallback.
 """
 import requests
 import responses
@@ -15,14 +15,14 @@ class TestDownloadSDNFallbackCommand(TestCase):
     Tests for populate_sdn_fallback_data_and_metadata management command.
     """
 
-    LOGGER_NAME = 'sanctions.apps.core.management.commands.populate_sdn_fallback_data_and_metadata'
+    LOGGER_NAME = 'sanctions.apps.sanctions.management.commands.populate_sdn_fallback_data_and_metadata'
 
     def setUp(self):
         class TestResponse:
             def __init__(self, **kwargs):
                 self.__dict__ = kwargs
 
-        #  mock response for csv download: just one row of the csv
+        #  mock response for CSV download: just one row of the CSV
         self.test_response = TestResponse(**{
             'content': bytes('_id,source,entity_number,type,programs,name,title,addresses,federal_register_notice,start_date,end_date,standard_order,license_requirement,license_policy,call_sign,vessel_type,gross_tonnage,gross_registered_tonnage,vessel_flag,vessel_owner,remarks,source_list_url,alt_names,citizenships,dates_of_birth,nationalities,places_of_birth,source_information_url,ids\ne5a9eff64cec4a74ed5e9e93c2d851dc2d9132d2,Denied Persons List (DPL) - Bureau of Industry and Security,,,, MICKEY MOUSE,,"123 S. TEST DRIVE, SCOTTSDALE, AZ, 85251",82 F.R. 48792 10/01/2017,2017-10-18,2020-10-15,Y,,,,,,,,,FR NOTICE ADDED,http://bit.ly/1Qi5heF,,,,,,http://bit.ly/1iwxiF0', 'utf-8'),  # pylint: disable=line-too-long
             'status_code': 200,
@@ -45,12 +45,12 @@ class TestDownloadSDNFallbackCommand(TestCase):
                     self.LOGGER_NAME,
                     'INFO',
                     StringComparison(
-                        r'(?s)SanctionsFallback: IMPORT SUCCESS: Imported SDN CSV\. Metadata id.*')
+                        r'(?s)Sanctions SDNFallback: IMPORT SUCCESS: Imported SDN CSV\. Metadata id.*')
                 ),
                 (
                     self.LOGGER_NAME,
                     'INFO',
-                    "SanctionsFallback: DOWNLOAD SUCCESS: Successfully downloaded the SDN CSV."
+                    "Sanctions SDNFallback: DOWNLOAD SUCCESS: Successfully downloaded the SDN CSV."
                 )
             )
 
@@ -68,7 +68,8 @@ class TestDownloadSDNFallbackCommand(TestCase):
                 (
                     self.LOGGER_NAME,
                     'WARNING',
-                    "SanctionsFallback: DOWNLOAD FAILURE: file too small! (0.000642 MB vs threshold of 1.0 MB)"
+                    "Sanctions SDNFallback: DOWNLOAD FAILURE: file too small! "
+                    "(0.000642 MB vs threshold of 1.0 MB)"
                 )
             )
         self.assertEqual('CSV file download did not meet threshold given', str(e.exception))
@@ -85,10 +86,10 @@ class TestDownloadSDNFallbackCommand(TestCase):
                 (
                     self.LOGGER_NAME,
                     'WARNING',
-                    "SanctionsFallback: DOWNLOAD FAILURE: Status code was: [500]"
+                    "Sanctions SDNFallback: DOWNLOAD FAILURE: Status code was: [500]"
                 )
             )
-        self.assertEqual("('CSV download url got an unsuccessful response code: ', 500)", str(e.exception))
+            self.assertEqual("('CSV download url got an unsuccessful response code: ', 500)", str(e.exception))
 
 
 class TestDownloadSDNFallbackCommandExceptions(TestCase):
@@ -96,7 +97,7 @@ class TestDownloadSDNFallbackCommandExceptions(TestCase):
     Tests for exceptions in populate_sdn_fallback_data_and_metadata management command.
     """
 
-    LOGGER_NAME = 'sanctions.apps.core.management.commands.populate_sdn_fallback_data_and_metadata'
+    LOGGER_NAME = 'sanctions.apps.sanctions.management.commands.populate_sdn_fallback_data_and_metadata'
     URL = 'https://data.trade.gov/downloadable_consolidated_screening_list/v1/consolidated.csv'
     ERROR_MESSAGE = 'some foo error'
 
@@ -112,7 +113,7 @@ class TestDownloadSDNFallbackCommandExceptions(TestCase):
                 (
                     self.LOGGER_NAME,
                     'WARNING',
-                    "SanctionsFallback: DOWNLOAD FAILURE: Exception occurred: [%s]" % self.ERROR_MESSAGE
+                    "Sanctions SDNFallback: DOWNLOAD FAILURE: Exception occurred: [%s]" % self.ERROR_MESSAGE
                 )
             )
 
@@ -130,7 +131,8 @@ class TestDownloadSDNFallbackCommandExceptions(TestCase):
                 (
                     self.LOGGER_NAME,
                     'WARNING',
-                    "SanctionsFallback: DOWNLOAD FAILURE: Timeout occurred trying to download SDN csv. Timeout threshold (in seconds): 5"  # pylint: disable=line-too-long
+                    "Sanctions SDNFallback: DOWNLOAD FAILURE: Timeout occurred trying to download SDN CSV. "
+                    "Timeout threshold (in seconds): 5"
                 )
             )
 

@@ -19,13 +19,13 @@ sanctions.SanctionsCheckFailure:
   ".. no_pii:": "This model has no PII"
 sanctions.HistoricalSanctionsCheckFailure:
   ".. no_pii:": "This model has no PII"
-sanctions.SanctionsFallbackMetadata:
+sanctions.SDNFallbackMetadata:
   ".. no_pii:": "This model has no PII"
-sanctions.HistoricalSanctionsFallbackMetadata:
+sanctions.HistoricalSDNFallbackMetadata:
   ".. no_pii:": "This model has no PII"  
-sanctions.SanctionsFallbackData:
+sanctions.SDNFallbackData:
   ".. no_pii:": "This model has no PII"
-sanctions.HistoricalSanctionsFallbackData:
+sanctions.HistoricalSDNFallbackData:
   ".. no_pii:": "This model has no PII"
 sessions.Session:
   ".. no_pii:": "This model has no PII"

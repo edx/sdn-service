@@ -50,7 +50,7 @@ class Command(BaseCommand):
         logger.info(f'result: {response.result}')
 
     def handle(self, *args, **options):
-        # download the csv locally, to check size and pass along to import
+        # download the CSV locally, to check size and pass along to import
         threshold = options['threshold']
         url = settings.SDN_CSL_LIST_URL
         timeout = settings.SDN_CHECK_REQUEST_TIMEOUT
@@ -61,20 +61,15 @@ class Command(BaseCommand):
                 status_code = download.status_code
             except Timeout:
                 logger.warning(
-                    "SanctionsFallback: DOWNLOAD FAILURE: Timeout occurred trying to download SDN csv. "
+                    "Sanctions SDNFallback: DOWNLOAD FAILURE: Timeout occurred trying to download SDN CSV. "
                     "Timeout threshold (in seconds): %s", timeout)
                 raise
-<<<<<<< HEAD
-            except Exception as e:  # pylint: disable=broad-except
-                logger.warning("SanctionsFallback: DOWNLOAD FAILURE: Exception occurred: [%s]", e)
-=======
             except Exception as e:
                 logger.warning("Sanctions SDNFallback: DOWNLOAD FAILURE: Exception occurred: [%s]", e)
->>>>>>> 6f1868a... fix: WIP mgmt command
                 raise
 
             if download.status_code != 200:
-                logger.warning("SanctionsFallback: DOWNLOAD FAILURE: Status code was: [%s]", status_code)
+                logger.warning("Sanctions SDNFallback: DOWNLOAD FAILURE: Status code was: [%s]", status_code)
                 raise Exception("CSV download url got an unsuccessful response code: ", status_code)
 
             with tempfile.TemporaryFile() as temp_csv:
@@ -88,18 +83,19 @@ class Command(BaseCommand):
                         metadata_entry = populate_sdn_fallback_data_and_metadata(sdn_file_string)
                         if metadata_entry:
                             logger.info(
-                                'SanctionsFallback: IMPORT SUCCESS: Imported SDN CSV. Metadata id %s',
+                                'Sanctions SDNFallback: IMPORT SUCCESS: Imported SDN CSV. Metadata id %s',
                                 metadata_entry.id)
 
-                        logger.info('SanctionsFallback: DOWNLOAD SUCCESS: Successfully downloaded the SDN CSV.')
+                        logger.info('Sanctions SDNFallback: DOWNLOAD SUCCESS: Successfully downloaded the SDN CSV.')
                         self.stdout.write(
                             self.style.SUCCESS(
-                                'SanctionsFallback: Imported SDN CSV into the SanctionsFallbackMetadata and SanctionsFallbackData models.'
+                                "Sanctions SDNFallback: Imported SDN CSV into the SDNFallbackMetadata"
+                                " and SDNFallbackData models."
                             )
                         )
                         self.hit_opsgenie_heartbeat()
                 else:
                     logger.warning(
-                        "SanctionsFallback: DOWNLOAD FAILURE: file too small! "
+                        "Sanctions SDNFallback: DOWNLOAD FAILURE: file too small! "
                         "(%f MB vs threshold of %s MB)", file_size_in_MB, threshold)
                     raise Exception("CSV file download did not meet threshold given")

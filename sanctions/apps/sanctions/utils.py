@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 
 import pycountry
 
-from sanctions.apps.sanctions.models import SanctionsFallbackData, SanctionsFallbackMetadata
+from sanctions.apps.sanctions.models import SDNFallbackData, SDNFallbackMetadata
 
 logger = logging.getLogger(__name__)
 COUNTRY_CODES = {country.alpha_2 for country in pycountry.countries}
@@ -19,9 +19,9 @@ COUNTRY_CODES = {country.alpha_2 for country in pycountry.countries}
 
 def checkSDNFallback(name, city, country):
     """
-    Performs an SDN check against the SanctionsFallbackData.
+    Performs an SDN check against the SDNFallbackData.
 
-    First, filter the SanctionsFallbackData records by source, type and country.
+    First, filter the SDNFallbackData records by source, type and country.
     Then, compare the provided name/city against each record and return whether we find a match.
     The check uses the following properties:
     1. Order of words doesn’t matter
@@ -31,7 +31,7 @@ def checkSDNFallback(name, city, country):
     5. Capitalization doesn’t matter
     """
     hit_count = 0
-    records = SanctionsFallbackData.get_current_records_and_filter_by_source_and_type(
+    records = SDNFallbackData.get_current_records_and_filter_by_source_and_type(
         'Specially Designated Nationals (SDN) - Treasury Department', 'Individual'
     )
     records = records.filter(countries__contains=country)
@@ -124,27 +124,27 @@ def extract_country_information(addresses, ids):
 
 def populate_sdn_fallback_metadata(sdn_csv_string):
     """
-    Insert a new SanctionsFallbackMetadata entry if the new csv differs from the current one
+    Insert a new SDNFallbackMetadata entry if the new csv differs from the current one
 
     Args:
         sdn_csv_string (bytes): Bytes of the sdn csv
 
     Returns:
-        sdn_fallback_metadata_entry (SanctionsFallbackMetadata): Instance of the current SanctionsFallbackMetadata class
+        sdn_fallback_metadata_entry (SDNFallbackMetadata): Instance of the current SDNFallbackMetadata class
         or None if none exists
     """
     file_checksum = hashlib.sha256(sdn_csv_string.encode('utf-8')).hexdigest()
-    metadata_entry = SanctionsFallbackMetadata.insert_new_sdn_fallback_metadata_entry(file_checksum)
+    metadata_entry = SDNFallbackMetadata.insert_new_sdn_fallback_metadata_entry(file_checksum)
     return metadata_entry
 
 
 def populate_sdn_fallback_data(sdn_csv_string, metadata_entry):
     """
-    Process CSV data and create SanctionsFallbackData records
+    Process CSV data and create SDNFallbackData records
 
     Args:
         sdn_csv_string (str): String of the sdn csv
-        metadata_entry (SanctionsFallbackMetadata): Instance of the current SanctionsFallbackMetadata class
+        metadata_entry (SDNFallbackMetadata): Instance of the current SDNFallbackMetadata class
     """
     sdn_csv_reader = csv.DictReader(io.StringIO(sdn_csv_string))
     processed_records = []
@@ -156,8 +156,8 @@ def populate_sdn_fallback_data(sdn_csv_string, metadata_entry):
         processed_names = ' '.join(process_text(' '.join(filter(None, [names, alt_names]))))
         processed_addresses = ' '.join(process_text(addresses))
         countries = extract_country_information(addresses, ids)
-        processed_records.append(SanctionsFallbackData(
-            sanctions_fallback_metadata=metadata_entry,
+        processed_records.append(SDNFallbackData(
+            sdn_fallback_metadata=metadata_entry,
             source=sdn_source,
             sdn_type=sdn_type,
             names=processed_names,
@@ -165,13 +165,13 @@ def populate_sdn_fallback_data(sdn_csv_string, metadata_entry):
             countries=countries
         ))
     # Bulk create should be more efficient for a few thousand records without needing to use SQL directly.
-    SanctionsFallbackData.objects.bulk_create(processed_records)
+    SDNFallbackData.objects.bulk_create(processed_records)
 
 
 def populate_sdn_fallback_data_and_metadata(sdn_csv_string):
     """
-    1. Create the SanctionsFallbackMetadata entry
-    2. Populate the SanctionsFallbackData from the csv
+    1. Create the SDNFallbackMetadata entry
+    2. Populate the SDNFallbackData from the csv
 
     Args:
         sdn_csv_string (str): String of the sdn csv

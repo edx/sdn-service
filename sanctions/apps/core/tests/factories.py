@@ -5,13 +5,10 @@ Factoryboy factories.
 import logging
 
 import factory
-from faker import Faker
 
 from sanctions.apps.core.models import User
 
 USER_PASSWORD = 'password'
-
-FAKER = Faker()
 
 # Silence faker locale warnings
 logging.getLogger("faker").setLevel(logging.ERROR)

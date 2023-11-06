@@ -62,7 +62,7 @@ class SanctionsCheckFailure(TimeStampedModel):
         )
 
 
-class SanctionsFallbackMetadata(TimeStampedModel):
+class SDNFallbackMetadata(TimeStampedModel):
     """
     Record metadata about the SDN fallback CSV file download.
     This table is used to track the state of the SDN CSV file data that are currently
@@ -91,33 +91,33 @@ class SanctionsFallbackMetadata(TimeStampedModel):
     @classmethod
     def insert_new_sdn_fallback_metadata_entry(cls, file_checksum):
         """
-        Insert a new SanctionsFallbackMetadata entry if the new CSV differs from the current one.
+        Insert a new SDNFallbackMetadata entry if the new CSV differs from the current one.
         If there is no current metadata entry, create a new one and log a warning.
 
         Args:
             file_checksum (str): Hash of the CSV content
 
         Returns:
-            sanctions_fallback_metadata_entry (SanctionsFallbackMetadata): Instance of the current SanctionsFallbackMetadata class
+            sdn_fallback_metadata_entry (SDNFallbackMetadata): Instance of the current SDNFallbackMetadata class
             or None if none exists
         """
         now = datetime.utcnow()
         try:
-            if file_checksum == SanctionsFallbackMetadata.objects.get(import_state='Current').file_checksum:
+            if file_checksum == SDNFallbackMetadata.objects.get(import_state='Current').file_checksum:
                 logger.info(
-                    "SanctionsFallback: The CSV file has not changed, so skipping import. The file_checksum was %s",
+                    "Sanctions SDNFallback: The CSV file has not changed, so skipping import. The file_checksum was %s",
                     file_checksum)
                 # Update download timestamp even though we're not importing this list
-                SanctionsFallbackMetadata.objects.filter(import_state="New").update(download_timestamp=now)
+                SDNFallbackMetadata.objects.filter(import_state="New").update(download_timestamp=now)
                 return None
-        except SanctionsFallbackMetadata.DoesNotExist:
-            logger.warning("SanctionsFallback: SanctionsFallbackMetadata has no record with import_state Current")
+        except SDNFallbackMetadata.DoesNotExist:
+            logger.warning("Sanctions SDNFallback: SDNFallbackMetadata has no record with import_state Current")
 
-        sanctions_fallback_metadata_entry = SanctionsFallbackMetadata.objects.create(
+        sdn_fallback_metadata_entry = SDNFallbackMetadata.objects.create(
             file_checksum=file_checksum,
             download_timestamp=now,
         )
-        return sanctions_fallback_metadata_entry
+        return sdn_fallback_metadata_entry
 
     @classmethod
     @atomic
@@ -133,9 +133,9 @@ class SanctionsFallbackMetadata(TimeStampedModel):
         2) There are any issues with the existing rows + updating them (e.g. a row with a
         duplicate import_state is manually inserted into the table during the transaction)
         """
-        SanctionsFallbackMetadata._swap_state('Discard')
-        SanctionsFallbackMetadata._swap_state('Current')
-        SanctionsFallbackMetadata._swap_state('New')
+        SDNFallbackMetadata._swap_state('Discard')
+        SDNFallbackMetadata._swap_state('Current')
+        SDNFallbackMetadata._swap_state('New')
 
         # After the above swaps happen:
         # If there are 0 rows in the table, there cannot be a row in the 'Current' status.
@@ -143,12 +143,13 @@ class SanctionsFallbackMetadata(TimeStampedModel):
         # (e.g. when the first file is added + just swapped).
         # If there are 2 rows in the table, after the swaps, we expect to have one row in
         # the 'Current' status and one row in the 'Discard' status.
-        if len(SanctionsFallbackMetadata.objects.all()) >= 1:
+        if len(SDNFallbackMetadata.objects.all()) >= 1:
             try:
-                SanctionsFallbackMetadata.objects.get(import_state='Current')
-            except SanctionsFallbackMetadata.DoesNotExist:
+                SDNFallbackMetadata.objects.get(import_state='Current')
+            except SDNFallbackMetadata.DoesNotExist:
                 logger.warning(
-                    "SanctionsFallback: Expected a row in the 'Current' import_state after swapping, but there are none.",
+                    "Sanctions SDNFallback: Expected a row in the 'Current' import_state after swapping,"
+                    " but there are none.",
                 )
                 raise
 
@@ -160,7 +161,7 @@ class SanctionsFallbackMetadata(TimeStampedModel):
         There can be at most one row in each import_state at a given time.
         """
         try:
-            existing_metadata = SanctionsFallbackMetadata.objects.get(import_state=import_state)
+            existing_metadata = SDNFallbackMetadata.objects.get(import_state=import_state)
             if import_state == 'Discard':
                 existing_metadata.delete()
             else:
@@ -170,20 +171,20 @@ class SanctionsFallbackMetadata(TimeStampedModel):
                     existing_metadata.import_state = 'Discard'
                 existing_metadata.full_clean()
                 existing_metadata.save()
-        except SanctionsFallbackMetadata.DoesNotExist:
+        except SDNFallbackMetadata.DoesNotExist:
             logger.info(
-                "SanctionsFallback: Cannot update import_state of %s row if there is no row in this state.",
+                "Sanctions SDNFallback: Cannot update import_state of %s row if there is no row in this state.",
                 import_state
             )
 
 
-class SanctionsFallbackData(models.Model):
+class SDNFallbackData(models.Model):
     """
-    Model used to record and process one row received from SanctionsFallbackMetadata.
+    Model used to record and process one row received from SDNFallbackMetadata.
 
     Fields:
-    sanctions_fallback_metadata (ForeignKey): Foreign Key field with the CSV import Primary Key
-    referenced in SanctionsFallbackMetadata.
+    sdn_fallback_metadata (ForeignKey): Foreign Key field with the CSV import Primary Key
+    referenced in SDNFallbackMetadata.
 
     source (CharField): Origin of where the data comes from, since the CSV consolidates
     export screening lists of the Departments of Commerce, State and the Treasury.
@@ -205,7 +206,7 @@ class SanctionsFallbackData(models.Model):
     required field in billing information form, those records would not be matched in the API/fallback.
     """
     history = HistoricalRecords()
-    sanctions_fallback_metadata = models.ForeignKey(SanctionsFallbackMetadata, on_delete=models.CASCADE)
+    sdn_fallback_metadata = models.ForeignKey(SDNFallbackMetadata, on_delete=models.CASCADE)
     source = models.CharField(default='', max_length=255, db_index=True)
     sdn_type = models.CharField(default='', max_length=255, db_index=True)
     names = models.TextField(default='')
@@ -218,10 +219,10 @@ class SanctionsFallbackData(models.Model):
         Query the records that have 'Current' import state, and filter by source and sdn_type.
         """
         try:
-            current_metadata = SanctionsFallbackMetadata.objects.get(import_state='Current')
+            current_metadata = SDNFallbackMetadata.objects.get(import_state='Current')
 
         # The 'get' relies on the manage command having been run. If it fails, tell engineer what's needed
-        except SanctionsFallbackMetadata.DoesNotExist as fallback_metadata_no_exist:
+        except SDNFallbackMetadata.DoesNotExist as fallback_metadata_no_exist:
             logger.warning(
                 "Sanctions SDNFallback: SDNFallbackMetadata is empty! Run this: "
                 "./manage.py populate_sdn_fallback_data_and_metadata"
@@ -230,4 +231,4 @@ class SanctionsFallbackData(models.Model):
                 'Sanctions SDNFallback empty error when calling checkSDNFallback, data is not yet populated.'
             ) from fallback_metadata_no_exist
         query_params = {'source': source, 'sdn_fallback_metadata': current_metadata, 'sdn_type': sdn_type}
-        return SanctionsFallbackData.objects.filter(**query_params)
+        return SDNFallbackData.objects.filter(**query_params)
