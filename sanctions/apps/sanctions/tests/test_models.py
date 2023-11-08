@@ -6,16 +6,8 @@ from datetime import datetime
 from django.test import TestCase
 from testfixtures import LogCapture
 
-# from ecommerce.extensions.payment.exceptions import SDNFallbackDataEmptyError
-from sanctions.apps.sanctions.models import (
-    SanctionsCheckFailure,
-    SDNFallbackData,
-    SDNFallbackMetadata
-)
-from sanctions.apps.sanctions.tests.factories import (
-    SDNFallbackMetadataFactory,
-    SDNFallbackDataFactory
-)
+from sanctions.apps.sanctions.models import SanctionsCheckFailure, SDNFallbackData, SDNFallbackMetadata
+from sanctions.apps.sanctions.tests.factories import SDNFallbackDataFactory, SDNFallbackMetadataFactory
 
 
 class SanctionsCheckFailureTests(TestCase):

@@ -260,3 +260,4 @@ PLATFORM_NAME = 'Your Platform Name Here'
 LOGGING = get_logger_config(debug=DEBUG)
 
 OPSGENIE_API_KEY = ''
+OPSGENIE_HEARTBEAT_NAME = ''

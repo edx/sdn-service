@@ -4,8 +4,8 @@ Django management command to download SDN CSV for use as fallback if the trade.g
 import logging
 import tempfile
 
-import requests
 import opsgenie_sdk
+import requests
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db import transaction
@@ -32,16 +32,16 @@ class Command(BaseCommand):
             help='File size MB threshold, under which we will not import it. Use default if argument not specified'
         )
 
-    def hit_opsgenie_heartbeat(self):
+    def _hit_opsgenie_heartbeat(self):
         """
-        Hit OpsGenie heartbeat to determine whether the fallback job is running.
+        Hit OpsGenie heartbeat to indicate that the fallback job has run successfully recently.
         """
         og_sdk_config = opsgenie_sdk.configuration.Configuration()
         og_sdk_config.api_key['Authorization'] = settings.OPSGENIE_API_KEY
         og_api_client = opsgenie_sdk.api_client.ApiClient(configuration=og_sdk_config)
         og_heartbeat_api = opsgenie_sdk.HeartbeatApi(api_client=og_api_client)
 
-        heartbeat_name = 'sanctions-sdn-fallback-job'
+        heartbeat_name = settings.OPSGENIE_HEARTBEAT_NAME
 
         logger.info(f'Calling opsgenie heartbeat for {heartbeat_name}')
         response = og_heartbeat_api.ping(heartbeat_name)
@@ -65,7 +65,7 @@ class Command(BaseCommand):
                     "Timeout threshold (in seconds): %s", timeout)
                 raise
             except Exception as e:
-                logger.warning("Sanctions SDNFallback: DOWNLOAD FAILURE: Exception occurred: [%s]", e)
+                logger.exception("Sanctions SDNFallback: DOWNLOAD FAILURE: Exception occurred: [%s]", e)
                 raise
 
             if download.status_code != 200:
@@ -93,7 +93,7 @@ class Command(BaseCommand):
                                 " and SDNFallbackData models."
                             )
                         )
-                        self.hit_opsgenie_heartbeat()
+                        self._hit_opsgenie_heartbeat()
                 else:
                     logger.warning(
                         "Sanctions SDNFallback: DOWNLOAD FAILURE: file too small! "
