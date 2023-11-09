@@ -15,5 +15,7 @@ edx-drf-extensions
 edx-rest-api-client
 mysqlclient
 opsgenie_sdk
+pycountry
 pytz
 responses
+testfixtures

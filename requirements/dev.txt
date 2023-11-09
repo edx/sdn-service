@@ -29,7 +29,7 @@ cffi==1.16.0
     #   pynacl
 chardet==5.2.0
     # via diff-cover
-charset-normalizer==3.3.1
+charset-normalizer==3.3.2
     # via
     #   -r requirements/validation.txt
     #   requests
@@ -87,7 +87,7 @@ distlib==0.3.7
     # via
     #   -r requirements/validation.txt
     #   virtualenv
-django==3.2.22
+django==3.2.23
     # via
     #   -r requirements/validation.txt
     #   django-cors-headers
@@ -142,7 +142,7 @@ edx-auth-backends==4.2.0
     # via -r requirements/validation.txt
 edx-django-release-util==1.3.0
     # via -r requirements/validation.txt
-edx-django-utils==5.7.0
+edx-django-utils==5.8.0
     # via
     #   -r requirements/validation.txt
     #   edx-drf-extensions
@@ -165,7 +165,7 @@ exceptiongroup==1.1.3
     #   pytest
 factory-boy==3.3.0
     # via -r requirements/validation.txt
-faker==19.12.1
+faker==19.13.0
     # via
     #   -r requirements/validation.txt
     #   factory-boy
@@ -307,6 +307,8 @@ py==1.11.0
     #   tox
 pycodestyle==2.11.1
     # via -r requirements/validation.txt
+pycountry==22.3.5
+    # via -r requirements/validation.txt
 pycparser==2.21
     # via
     #   -r requirements/validation.txt
@@ -418,7 +420,7 @@ requests-toolbelt==1.0.0
     # via
     #   -r requirements/validation.txt
     #   twine
-responses==0.23.3
+responses==0.24.0
     # via -r requirements/validation.txt
 rfc3986==2.0.0
     # via
@@ -481,6 +483,8 @@ tenacity==8.2.3
     # via
     #   -r requirements/validation.txt
     #   opsgenie-sdk
+testfixtures==7.2.2
+    # via -r requirements/validation.txt
 text-unidecode==1.3
     # via
     #   -r requirements/validation.txt
@@ -496,7 +500,7 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
     #   tox
-tomlkit==0.12.1
+tomlkit==0.12.2
     # via
     #   -r requirements/validation.txt
     #   pylint
@@ -504,10 +508,6 @@ tox==3.28.0
     # via -r requirements/validation.txt
 twine==4.0.2
     # via -r requirements/validation.txt
-types-pyyaml==6.0.12.12
-    # via
-    #   -r requirements/validation.txt
-    #   responses
 typing-extensions==4.8.0
     # via
     #   -r requirements/validation.txt

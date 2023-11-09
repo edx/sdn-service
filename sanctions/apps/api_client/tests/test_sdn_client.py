@@ -25,7 +25,7 @@ class TestSDNClient(TestCase):
         self.lms_user_id = 123
         self.sdn_api_url = 'http://sdn-test.fake/'
         self.sdn_api_key = 'fake-key'
-        self.sdn_api_list = 'SDN, ISN'
+        self.sdn_api_list = 'ISN,SDN'
 
         self.sdn_api_client = SDNClient(
             self.sdn_api_url,
@@ -67,8 +67,8 @@ class TestSDNClient(TestCase):
         self.mock_sdn_api_response(Timeout)
         with self.assertRaises(Timeout):
             with mock.patch('sanctions.apps.api_client.sdn_client.logger.exception') as mock_logger:
-                response = self.sdn_api_client.search(self.lms_user_id, self.name, self.city, self.country)
-                self.assertTrue(mock_logger.called)
+                self.sdn_api_client.search(self.lms_user_id, self.name, self.city, self.country)
+                assert mock_logger.is_called()
 
     @responses.activate
     def test_sdn_search_failure(self):
@@ -79,8 +79,8 @@ class TestSDNClient(TestCase):
         with self.assertRaises(HTTPError):
             with mock.patch('sanctions.apps.api_client.sdn_client.logger.exception') as mock_logger:
                 response = self.sdn_api_client.search(self.lms_user_id, self.name, self.city, self.country)
-                self.assertTrue(mock_logger.called)
-                self.assertEqual(response.status_code, 400)
+                assert mock_logger.is_called()
+                assert response.status_code == 400
 
     @responses.activate
     def test_sdn_search_success(self):
@@ -90,4 +90,4 @@ class TestSDNClient(TestCase):
         sdn_response = {'total': 1}
         self.mock_sdn_api_response(json.dumps(sdn_response), status_code=200)
         response = self.sdn_api_client.search(self.lms_user_id, self.name, self.city, self.country)
-        self.assertEqual(response, sdn_response)
+        assert response == sdn_response

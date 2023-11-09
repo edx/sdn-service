@@ -18,7 +18,7 @@ cffi==1.16.0
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==3.3.1
+charset-normalizer==3.3.2
     # via
     #   -r requirements/base.txt
     #   requests
@@ -45,7 +45,7 @@ defusedxml==0.8.0rc2
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-django==3.2.22
+django==3.2.23
     # via
     #   -r requirements/base.txt
     #   django-cors-headers
@@ -90,7 +90,7 @@ edx-auth-backends==4.2.0
     # via -r requirements/base.txt
 edx-django-release-util==1.3.0
     # via -r requirements/base.txt
-edx-django-utils==5.7.0
+edx-django-utils==5.8.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
@@ -154,6 +154,8 @@ psutil==5.9.6
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
+pycountry==22.3.5
+    # via -r requirements/base.txt
 pycparser==2.21
     # via
     #   -r requirements/base.txt
@@ -210,7 +212,7 @@ requests-oauthlib==1.3.1
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-responses==0.23.3
+responses==0.24.0
     # via -r requirements/base.txt
 semantic-version==2.10.0
     # via
@@ -254,10 +256,8 @@ tenacity==8.2.3
     # via
     #   -r requirements/base.txt
     #   opsgenie-sdk
-types-pyyaml==6.0.12.12
-    # via
-    #   -r requirements/base.txt
-    #   responses
+testfixtures==7.2.2
+    # via -r requirements/base.txt
 typing-extensions==4.8.0
     # via
     #   -r requirements/base.txt
