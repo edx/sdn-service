@@ -44,14 +44,14 @@ class SanctionsCheckFailure(TimeStampedModel):
     """
     history = HistoricalRecords()
     full_name = models.CharField(max_length=255)
-    username = models.CharField(max_length=255)
+    username = models.CharField(null=True, max_length=255)
     lms_user_id = models.IntegerField(null=True, db_index=True)
     city = models.CharField(max_length=32, default='')
     country = models.CharField(max_length=2)
     sanctions_type = models.CharField(max_length=255)
-    system_identifier = models.CharField(max_length=255)
-    metadata = models.JSONField()
-    sdn_check_response = models.JSONField()
+    system_identifier = models.CharField(null=True, max_length=255)
+    metadata = models.JSONField(null=True)
+    sanctions_response = models.JSONField(null=True)
 
     class Meta:
         verbose_name = 'Sanctions Check Failure'
