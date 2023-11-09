@@ -30,7 +30,7 @@ class SanctionsCheckFailureTests(TestCase):
             sanctions_type='ISN,SDN',
             system_identifier='commerce-coordinator',
             metadata={'order_identifer': 'EDX-123456', 'purchase_type': 'program', 'order_total': '989.00'},
-            sdn_check_response=self.sdn_check_response
+            sanctions_response=self.sdn_check_response
         )
         expected = 'Sanctions check failure [{username}]'.format(
             username=self.username

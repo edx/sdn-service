@@ -74,7 +74,7 @@ class SDNCheckView(views.APIView):
                 city,
                 country
             )
-            response = {'total': sdn_fallback_hit_count}
+            sdn_check_response = {'total': sdn_fallback_hit_count}
 
         hit_count = sdn_check_response['total']
         if hit_count > 0:
