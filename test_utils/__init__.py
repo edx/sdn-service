@@ -71,9 +71,3 @@ class APITest(APITestCase):
         jwt_token = generate_jwt_token(payload)
 
         self.client.cookies[jwt_cookie_name()] = jwt_token
-
-    def generate_jwt_token_header(self, user):
-        """
-        Generate a valid JWT token header for authenticated requests.
-        """
-        return "JWT {token}".format(token=generate_jwt(user))

@@ -22,10 +22,10 @@ class TestSDNCheckView(APITest):
             'city': 'Jedi Temple',
             'country': 'SW',
         }
-        self.token = self.generate_jwt_token_header(self.user)
 
     def test_sdn_check_missing_args(self):
-        response = self.client.post(self.url, HTTP_AUTHORIZATION=self.token)
+        self.set_jwt_cookie(self.user.id)
+        response = self.client.post(self.url)
         assert response.status_code == 400
 
     @mock.patch('sanctions.apps.api.v1.views.checkSDNFallback')
@@ -33,10 +33,10 @@ class TestSDNCheckView(APITest):
     def test_sdn_check_search_fails_uses_fallback(self, mock_search, mock_fallback):
         mock_search.side_effect = [HTTPError]
         mock_fallback.return_value = 0
+        self.set_jwt_cookie(self.user.id)
         response = self.client.post(
             self.url,
             content_type='application/json',
-            HTTP_AUTHORIZATION=self.token,
             data=json.dumps(self.post_data)
         )
         assert response.status_code == 200
@@ -55,7 +55,6 @@ class TestSDNCheckView(APITest):
         response = self.client.post(
             self.url,
             content_type='application/json',
-            HTTP_AUTHORIZATION=self.token,
             data=json.dumps(self.post_data)
         )
         assert response.status_code == 200

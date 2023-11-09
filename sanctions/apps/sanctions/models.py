@@ -35,7 +35,7 @@ class SanctionsCheckFailure(TimeStampedModel):
         username='UnusualSuspect',
         city='Boston',
         country='US',
-        sanctions_type='SDN',
+        sanctions_type='ISN,SDN',
         system_identifier='commerce-coordinator',
         metadata={'order_identifer': 'EDX-123456', 'purchase_type': 'program', 'order_total': '989.00'},
         sdn_check_response={'description': 'Looks a bit suspicious.'},

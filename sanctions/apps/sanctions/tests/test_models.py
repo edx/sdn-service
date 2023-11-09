@@ -27,7 +27,7 @@ class SanctionsCheckFailureTests(TestCase):
             full_name=self.full_name,
             username=self.username,
             country=self.country,
-            sanctions_type='SDN',
+            sanctions_type='ISN,SDN',
             system_identifier='commerce-coordinator',
             metadata={'order_identifer': 'EDX-123456', 'purchase_type': 'program', 'order_total': '989.00'},
             sdn_check_response=self.sdn_check_response

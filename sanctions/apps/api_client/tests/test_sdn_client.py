@@ -25,7 +25,7 @@ class TestSDNClient(TestCase):
         self.lms_user_id = 123
         self.sdn_api_url = 'http://sdn-test.fake/'
         self.sdn_api_key = 'fake-key'
-        self.sdn_api_list = 'SDN, ISN'
+        self.sdn_api_list = 'ISN,SDN'
 
         self.sdn_api_client = SDNClient(
             self.sdn_api_url,
