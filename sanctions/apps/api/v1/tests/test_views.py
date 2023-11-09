@@ -47,6 +47,7 @@ class TestSDNCheckView(APITest):
         assert response.status_code == 200
         assert response.json()['hit_count'] == 0
         assert mock_fallback.is_called()
+
     def test_sdn_check_no_jwt_returns_401(self):
         response = self.client.post(self.url)
         assert response.status_code == 401
@@ -58,8 +59,6 @@ class TestSDNCheckView(APITest):
         self.set_jwt_cookie(self.user.id)
         response = self.client.post(self.url)
         assert response.status_code == 403
-
-    # TODO: add test for test_sdn_check_search_fails_uses_fallback
 
     @mock.patch('sanctions.apps.api.v1.views.checkSDNFallback')
     @mock.patch('sanctions.apps.api_client.sdn_client.SDNClient.search')
