@@ -43,7 +43,7 @@ class SDNCheckView(views.APIView):
             }
             return JsonResponse(json_data, status=400)
 
-        lms_user_id = request.user.lms_user_id
+        lms_user_id = payload.get('lms_user_id')
         full_name = payload.get('full_name')
         city = payload.get('city')
         country = payload.get('country')
