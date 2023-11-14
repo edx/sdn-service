@@ -8,6 +8,7 @@ asgiref==3.7.2
     # via
     #   -r requirements/base.txt
     #   django
+    #   django-cors-headers
 certifi==2023.7.22
     # via
     #   -r requirements/base.txt
@@ -59,7 +60,7 @@ django==3.2.23
     #   edx-django-utils
     #   edx-drf-extensions
     #   social-auth-app-django
-django-cors-headers==4.3.0
+django-cors-headers==4.3.1
     # via -r requirements/base.txt
 django-crum==0.7.9
     # via
@@ -129,7 +130,7 @@ mysqlclient==2.2.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
-newrelic==9.1.1
+newrelic==9.1.2
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -146,7 +147,7 @@ opsgenie-sdk==2.1.5
     # via -r requirements/base.txt
 packaging==23.2
     # via gunicorn
-pbr==5.11.1
+pbr==6.0.0
     # via
     #   -r requirements/base.txt
     #   stevedore
@@ -267,7 +268,7 @@ uritemplate==4.1.1
     # via
     #   -r requirements/base.txt
     #   coreapi
-urllib3==2.0.7
+urllib3==2.1.0
     # via
     #   -r requirements/base.txt
     #   opsgenie-sdk
