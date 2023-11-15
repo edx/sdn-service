@@ -8,6 +8,7 @@ Purpose
 *******
 
 Backend Django IDA for checking users against Specially Designated Nationals (SDN) - Treasury Department and Nonproliferation Sanctions (ISN) - State Department, as well as managing these sanctions hit records.
+This service also maintains a fallback copy that saves data from the Consolidated Screening List provided by the ITA, which is only utilized when our primary approach by calling the government's SDN API is not an option, due to an API outage/timeout.
 
 Getting Started
 ***************
@@ -91,9 +92,35 @@ Getting Help
 Documentation
 =============
 
-This is a new service, and is a work in progress (as most things are)! There is no official home for this app's technical docs just yet, but there could be soon. Please reach out to someone on the Purchase Squad if you have questions.
+How to use this service
+------------------------------------------------
 
-(TODO: `Set up documentation <https://openedx.atlassian.net/wiki/spaces/DOC/pages/21627535/Publish+Documentation+on+Read+the+Docs>`_)
+The sanctions endpoint will check users against the SDN API and return a hit count - if there is a match found, a record in the sanctions database (SanctionsCheckFailure) will be created.
+
+Example of making a POST request to the `api/v1/sdn-check/` endpoint:
+
+.. code-block::
+
+  response = self.client.post(
+      'https://sanctions.edx.org/api/v1/sdn-check/',
+      timeout=settings.SANCTIONS_CLIENT_TIMEOUT,
+      json={
+          'lms_user_id': user.lms_user_id, # optional
+          'username': user.username, # optional
+          'full_name': full_name,
+          'city': city,
+          'country': country,
+          'metadata': { # optional
+              'order_identifer': 'EDX-123456',
+              'purchase_type': 'program',
+              'order_total': '989.00'
+          },
+          'system_identifier': 'commerce-coordinator', # optional
+          'sdn_api_list': 'ISN,SDN', # optional, default is 'ISN,SDN'
+      },
+  )
+
+Please reach out to someone on the Purchase Squad if you have questions.
 
 License
 *******
