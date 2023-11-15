@@ -88,7 +88,7 @@ class SDNCheckView(views.APIView):
             metadata = payload.get('metadata', {})
             username = payload.get('username')
             system_identifier = payload.get('system_identifier')
-            sanctions_type = 'ISN,SDN'
+            sanctions_type = sdn_api_list
             # This try/except is here to make us fault tolerant. Callers of this
             # API should not be held up if we are having DB troubles. Log the error
             # and continue through the code to reply to them.
