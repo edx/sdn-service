@@ -52,7 +52,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # download the CSV locally, to check size and pass along to import
         threshold = options['threshold']
-        url = settings.SDN_CSL_LIST_URL
+        url = settings.CONSOLIDATED_SCREENING_LIST_URL
         timeout = settings.SDN_CHECK_REQUEST_TIMEOUT
 
         with requests.Session() as s:

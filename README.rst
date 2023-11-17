@@ -110,15 +110,24 @@ Example of making a POST request to the `api/v1/sdn-check/` endpoint:
           'full_name': full_name,
           'city': city,
           'country': country,
-          'metadata': { # optional
+          'metadata': { # optional, any key/value can be added
               'order_identifer': 'EDX-123456',
               'purchase_type': 'program',
               'order_total': '989.00'
           },
           'system_identifier': 'commerce-coordinator', # optional
-          'sdn_api_list': 'ISN,SDN', # optional, default is 'ISN,SDN'
       },
   )
+
+  # Expected response if there is no SDN match
+  {"hit_count": 0, "sdn_response": {"total": 0, "sources": [], "results": []}, "sanctions_check_failure_id": null}
+
+  # Expected response if there is a SDN match
+  {"hit_count": 1, "sdn_response": { # SDN API RESPONSE HERE }, "sanctions_check_failure_id": 1}
+
+  # Please note that if there is match, but there is an issue in making a SanctionsCheckFailure record,
+  # will be null. The presence/absence of the ID value is not always directly correlated to the hit_count.
+
 
 Please reach out to someone on the Purchase Squad if you have questions.
 

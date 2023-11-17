@@ -47,7 +47,7 @@ class SDNCheckView(views.APIView):
         full_name = payload.get('full_name')
         city = payload.get('city')
         country = payload.get('country')
-        sdn_api_list = payload.get('sdn_api_list', 'ISN,SDN')  # Set SDN lists to a sane default
+        sdn_api_list = settings.SDN_CHECK_API_LIST
 
         sdn_check = SDNClient(
             sdn_api_url=settings.SDN_CHECK_API_URL,
@@ -77,6 +77,8 @@ class SDNCheckView(views.APIView):
             sdn_check_response = {'total': sdn_fallback_hit_count}
 
         hit_count = sdn_check_response['total']
+        sanctions_check_failure = None
+
         if hit_count > 0:
             logger.info(
                 'SDNCheckView request received for lms user [%s]. It received %d hit(s).',
@@ -88,18 +90,18 @@ class SDNCheckView(views.APIView):
             metadata = payload.get('metadata', {})
             username = payload.get('username')
             system_identifier = payload.get('system_identifier')
-            sanctions_type = sdn_api_list
+
             # This try/except is here to make us fault tolerant. Callers of this
             # API should not be held up if we are having DB troubles. Log the error
             # and continue through the code to reply to them.
             try:
-                SanctionsCheckFailure.objects.create(
+                sanctions_check_failure = SanctionsCheckFailure.objects.create(
                     full_name=full_name,
                     username=username,
                     lms_user_id=lms_user_id,
                     city=city,
                     country=country,
-                    sanctions_type=sanctions_type,
+                    sanctions_type=sdn_api_list,
                     system_identifier=system_identifier,
                     metadata=metadata,
                     sanctions_response=sdn_check_response,
@@ -126,7 +128,7 @@ class SDNCheckView(views.APIView):
                     full_name,
                     city,
                     country,
-                    sanctions_type,
+                    sdn_api_list,
                     system_identifier,
                     metadata,
                     sdn_check_response,
@@ -140,6 +142,7 @@ class SDNCheckView(views.APIView):
         json_data = {
             'hit_count': hit_count,
             'sdn_response': sdn_check_response,
+            'sanctions_check_failure_id': sanctions_check_failure.id if sanctions_check_failure else None,
         }
 
         return JsonResponse(json_data, status=200)
