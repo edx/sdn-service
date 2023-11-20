@@ -77,6 +77,7 @@ class TestSDNCheckView(APITest):
         assert response.status_code == 200
         assert response.json()['hit_count'] == 4
         assert response.json()['sdn_response'] == {'total': 4}
+        assert response.json()['sanctions_check_failure_id'] is not None
         mock_fallback.assert_not_called()
 
         assert SanctionsCheckFailure.objects.count() == 1
@@ -115,5 +116,6 @@ class TestSDNCheckView(APITest):
         assert response.status_code == 200
         assert response.json()['hit_count'] == 4
         assert response.json()['sdn_response'] == {'total': 4}
+        assert response.json()['sanctions_check_failure_id'] is None
 
         assert SanctionsCheckFailure.objects.count() == 0
