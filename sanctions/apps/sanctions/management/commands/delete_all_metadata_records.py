@@ -24,5 +24,5 @@ class Command(BaseCommand):
             logger.info('Deleting record %s', record.id)
             record.delete()
             logger.info('Deleted record %s', record.id)
-        
+
         logger.info('Completed deletion of SanctionsCheckFailure records.')
