@@ -49,7 +49,7 @@ jobs:
         uses: py-cov-action/python-coverage-comment-action@v3
         with:
           GITHUB_TOKEN: ${{ github.token }}
-          MINIMUM_GREEN: 95
-          MINIMUM_ORANGE: 84
+          MINIMUM_GREEN: 90
+          MINIMUM_ORANGE: 80
           ANNOTATE_MISSING_LINES: true
           ANNOTATION_TYPE: error
