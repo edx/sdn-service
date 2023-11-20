@@ -2,11 +2,15 @@
 branch = True
 data_file = .coverage
 source=sanctions
+relative_files = True
 omit =
+    CODEOWNERS
     sanctions/settings/*
     sanctions/conf/*
     *wsgi.py
-    */migrations/*
+    *migrations*
     *admin.py
-    */static/*
-    */templates/*
+    *static*
+    *templates*
+    *test*
+    *gunicorn_configuration.py
