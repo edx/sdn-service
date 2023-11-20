@@ -126,7 +126,7 @@ Example of making a POST request to the `api/v1/sdn-check/` endpoint:
   {"hit_count": 1, "sdn_response": { # SDN API RESPONSE HERE }, "sanctions_check_failure_id": 1}
 
   # Please note that if there is match, but there is an issue in making a SanctionsCheckFailure record,
-  # will be null. The presence/absence of the ID value is not always directly correlated to the hit_count.
+  # sanctions_check_failure_id will be null. The presence/absence of the ID value is not always directly correlated to the hit_count.
 
 
 Please reach out to someone on the Purchase Squad if you have questions.
