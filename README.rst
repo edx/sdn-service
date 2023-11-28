@@ -105,7 +105,7 @@ Example of making a POST request to the `api/v1/sdn-check/` endpoint:
       'https://sanctions.edx.org/api/v1/sdn-check/',
       timeout=settings.SANCTIONS_CLIENT_TIMEOUT,
       json={
-          'lms_user_id': user.lms_user_id, # optional
+          'lms_user_id': user.lms_user_id,
           'username': user.username, # optional
           'full_name': full_name,
           'city': city,
