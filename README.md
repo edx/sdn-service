@@ -40,10 +40,10 @@
 | sanctions/apps/sanctions/models.py                                                           |       86 |        3 |       22 |        9 |     89% |92->91, 106->116, 107-112, 122->124, 123->122, 124->123, 157->156, 170->172, 217->216 |
 | sanctions/apps/sanctions/tests/\_\_init\_\_.py                                               |        0 |        0 |        0 |        0 |    100% |           |
 | sanctions/apps/sanctions/tests/factories.py                                                  |       21 |        0 |        2 |        0 |    100% |           |
-| sanctions/apps/sanctions/utils.py                                                            |       66 |       12 |       18 |        4 |     76% |33-43, 78, 104->109, 114-115, 180->187 |
+| sanctions/apps/sanctions/utils.py                                                            |       66 |       12 |       14 |        4 |     75% |33-43, 78, 104->109, 114-115, 180->187 |
 | sanctions/apps/sanctions/views.py                                                            |        0 |        0 |        0 |        0 |    100% |           |
 | sanctions/urls.py                                                                            |       10 |        0 |        0 |        0 |    100% |           |
-|                                                                                    **TOTAL** |  **442** |   **28** |   **78** |   **20** | **90%** |           |
+|                                                                                    **TOTAL** |  **442** |   **28** |   **74** |   **20** | **90%** |           |
 
 
 ## Setup coverage badge
