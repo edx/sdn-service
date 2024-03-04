@@ -36,6 +36,7 @@ defusedxml==0.8.0rc2
     #   social-auth-core
 django==3.2.24
     # via
+    #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
     #   -r requirements/base.in
     #   django-cors-headers
@@ -130,7 +131,7 @@ pymongo==3.13.0
     # via edx-opaque-keys
 pynacl==1.5.0
     # via edx-django-utils
-python-dateutil==2.8.2
+python-dateutil==2.9.0.post0
     # via opsgenie-sdk
 python3-openid==3.2.0
     # via social-auth-core
@@ -182,7 +183,7 @@ stevedore==5.2.0
     #   edx-opaque-keys
 tenacity==8.2.3
     # via opsgenie-sdk
-testfixtures==8.0.0
+testfixtures==8.1.0
     # via -r requirements/base.in
 typing-extensions==4.10.0
     # via
