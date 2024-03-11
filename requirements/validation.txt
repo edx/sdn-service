@@ -87,6 +87,7 @@ cryptography==42.0.5
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
     #   pyjwt
+    #   secretstorage
     #   social-auth-core
 ddt==1.7.2
     # via
@@ -108,7 +109,7 @@ distlib==0.3.8
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
     #   virtualenv
-django==3.2.24
+django==3.2.25
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
@@ -178,7 +179,7 @@ edx-django-release-util==1.3.0
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
-edx-django-utils==5.10.1
+edx-django-utils==5.11.0
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
@@ -210,7 +211,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
-faker==23.3.0
+faker==24.1.0
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
@@ -226,7 +227,7 @@ idna==3.6
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
     #   requests
-importlib-metadata==7.0.1
+importlib-metadata==7.0.2
     # via
     #   -r requirements/quality.txt
     #   keyring
@@ -256,6 +257,11 @@ jaraco-classes==3.3.1
     # via
     #   -r requirements/quality.txt
     #   keyring
+jeepney==0.8.0
+    # via
+    #   -r requirements/quality.txt
+    #   keyring
+    #   secretstorage
 jinja2==3.1.3
     # via
     #   -r requirements/quality.txt
@@ -320,7 +326,7 @@ opsgenie-sdk==2.1.5
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
-packaging==23.2
+packaging==24.0
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
@@ -332,7 +338,7 @@ pbr==6.0.0
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
     #   stevedore
-pkginfo==1.9.6
+pkginfo==1.10.0
     # via
     #   -r requirements/quality.txt
     #   twine
@@ -420,7 +426,7 @@ pyproject-api==1.6.1
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
     #   tox
-pytest==8.0.2
+pytest==8.1.1
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
@@ -434,7 +440,7 @@ pytest-django==4.8.0
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
-python-dateutil==2.8.2
+python-dateutil==2.9.0.post0
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
@@ -480,7 +486,7 @@ requests==2.31.0
     #   slumber
     #   social-auth-core
     #   twine
-requests-oauthlib==1.3.1
+requests-oauthlib==1.4.0
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
@@ -501,6 +507,10 @@ rich==13.7.1
     # via
     #   -r requirements/quality.txt
     #   twine
+secretstorage==3.3.3
+    # via
+    #   -r requirements/quality.txt
+    #   keyring
 semantic-version==2.10.0
     # via
     #   -r requirements/quality.txt
@@ -557,7 +567,7 @@ tenacity==8.2.3
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
     #   opsgenie-sdk
-testfixtures==8.0.0
+testfixtures==8.1.0
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
@@ -580,7 +590,7 @@ tomlkit==0.12.4
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
     #   pylint
-tox==4.13.0
+tox==4.14.1
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
