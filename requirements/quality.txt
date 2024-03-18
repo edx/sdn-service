@@ -14,6 +14,10 @@ astroid==3.1.0
     #   -r requirements/test.txt
     #   pylint
     #   pylint-celery
+backports-zoneinfo==0.2.1
+    # via
+    #   -r requirements/test.txt
+    #   djangorestframework
 cachetools==5.3.3
     # via
     #   -r requirements/test.txt
@@ -47,7 +51,7 @@ click-log==0.4.0
     # via
     #   -r requirements/test.txt
     #   edx-lint
-code-annotations==1.6.0
+code-annotations==1.7.0
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -64,7 +68,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/test.txt
     #   coreapi
-coverage[toml]==7.4.3
+coverage[toml]==7.4.4
     # via
     #   -r requirements/test.txt
     #   pytest-cov
@@ -72,6 +76,7 @@ cryptography==42.0.5
     # via
     #   -r requirements/test.txt
     #   pyjwt
+    #   secretstorage
     #   social-auth-core
 ddt==1.7.2
     # via -r requirements/test.txt
@@ -88,8 +93,9 @@ distlib==0.3.8
     # via
     #   -r requirements/test.txt
     #   virtualenv
-django==3.2.24
+django==3.2.25
     # via
+    #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   django-cors-headers
@@ -124,7 +130,7 @@ django-waffle==4.1.0
     #   -r requirements/test.txt
     #   edx-django-utils
     #   edx-drf-extensions
-djangorestframework==3.14.0
+djangorestframework==3.15.0
     # via
     #   -r requirements/test.txt
     #   django-rest-swagger
@@ -140,7 +146,7 @@ edx-auth-backends==4.2.0
     # via -r requirements/test.txt
 edx-django-release-util==1.3.0
     # via -r requirements/test.txt
-edx-django-utils==5.10.1
+edx-django-utils==5.11.0
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
@@ -163,7 +169,7 @@ exceptiongroup==1.2.0
     #   pytest
 factory-boy==3.3.0
     # via -r requirements/test.txt
-faker==23.3.0
+faker==24.2.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -176,8 +182,9 @@ idna==3.6
     # via
     #   -r requirements/test.txt
     #   requests
-importlib-metadata==7.0.1
+importlib-metadata==6.11.0
     # via
+    #   -c requirements/common_constraints.txt
     #   keyring
     #   twine
 importlib-resources==5.13.0
@@ -200,6 +207,10 @@ itypes==1.2.0
     #   coreapi
 jaraco-classes==3.3.1
     # via keyring
+jeepney==0.8.0
+    # via
+    #   keyring
+    #   secretstorage
 jinja2==3.1.3
     # via
     #   -r requirements/test.txt
@@ -225,7 +236,7 @@ more-itertools==10.2.0
     # via jaraco-classes
 mysqlclient==2.2.4
     # via -r requirements/test.txt
-newrelic==9.7.0
+newrelic==9.7.1
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -242,7 +253,7 @@ openapi-codec==1.3.2
     #   django-rest-swagger
 opsgenie-sdk==2.1.5
     # via -r requirements/test.txt
-packaging==23.2
+packaging==24.0
     # via
     #   -r requirements/test.txt
     #   pyproject-api
@@ -252,7 +263,7 @@ pbr==6.0.0
     # via
     #   -r requirements/test.txt
     #   stevedore
-pkginfo==1.9.6
+pkginfo==1.10.0
     # via twine
 platformdirs==4.2.0
     # via
@@ -323,7 +334,7 @@ pyproject-api==1.6.1
     # via
     #   -r requirements/test.txt
     #   tox
-pytest==8.0.2
+pytest==8.1.1
     # via
     #   -r requirements/test.txt
     #   pytest-cov
@@ -332,7 +343,7 @@ pytest-cov==4.1.0
     # via -r requirements/test.txt
 pytest-django==4.8.0
     # via -r requirements/test.txt
-python-dateutil==2.8.2
+python-dateutil==2.9.0.post0
     # via
     #   -r requirements/test.txt
     #   faker
@@ -349,7 +360,6 @@ pytz==2024.1
     # via
     #   -r requirements/test.txt
     #   django
-    #   djangorestframework
 pyyaml==6.0.1
     # via
     #   -r requirements/test.txt
@@ -370,7 +380,7 @@ requests==2.31.0
     #   slumber
     #   social-auth-core
     #   twine
-requests-oauthlib==1.3.1
+requests-oauthlib==1.4.0
     # via
     #   -r requirements/test.txt
     #   social-auth-core
@@ -382,6 +392,8 @@ rfc3986==2.0.0
     # via twine
 rich==13.7.1
     # via twine
+secretstorage==3.3.3
+    # via keyring
 semantic-version==2.10.0
     # via
     #   -r requirements/test.txt
@@ -427,7 +439,7 @@ tenacity==8.2.3
     # via
     #   -r requirements/test.txt
     #   opsgenie-sdk
-testfixtures==8.0.0
+testfixtures==8.1.0
     # via -r requirements/test.txt
 text-unidecode==1.3
     # via
@@ -445,7 +457,7 @@ tomlkit==0.12.4
     # via
     #   -r requirements/test.txt
     #   pylint
-tox==4.13.0
+tox==4.14.1
     # via -r requirements/test.txt
 twine==5.0.0
     # via -r requirements/quality.in
@@ -473,7 +485,7 @@ virtualenv==20.25.1
     # via
     #   -r requirements/test.txt
     #   tox
-zipp==3.17.0
+zipp==3.18.1
     # via
     #   -r requirements/test.txt
     #   importlib-metadata

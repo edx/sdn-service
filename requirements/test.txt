@@ -13,6 +13,10 @@ astroid==3.1.0
     # via
     #   pylint
     #   pylint-celery
+backports-zoneinfo==0.2.1
+    # via
+    #   -r requirements/base.txt
+    #   djangorestframework
 cachetools==5.3.3
     # via tox
 certifi==2024.2.2
@@ -40,7 +44,7 @@ click==8.1.7
     #   edx-lint
 click-log==0.4.0
     # via edx-lint
-code-annotations==1.6.0
+code-annotations==1.7.0
     # via
     #   -r requirements/test.in
     #   edx-lint
@@ -55,7 +59,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-coverage[toml]==7.4.3
+coverage[toml]==7.4.4
     # via
     #   -r requirements/test.in
     #   pytest-cov
@@ -76,6 +80,7 @@ dill==0.3.8
 distlib==0.3.8
     # via virtualenv
     # via
+    #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   django-cors-headers
@@ -110,7 +115,7 @@ django-waffle==4.1.0
     #   -r requirements/base.txt
     #   edx-django-utils
     #   edx-drf-extensions
-djangorestframework==3.14.0
+djangorestframework==3.15.0
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
@@ -124,7 +129,7 @@ edx-auth-backends==4.2.0
     # via -r requirements/base.txt
 edx-django-release-util==1.3.0
     # via -r requirements/base.txt
-edx-django-utils==5.10.1
+edx-django-utils==5.11.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
@@ -143,7 +148,7 @@ exceptiongroup==1.2.0
     # via pytest
 factory-boy==3.3.0
     # via -r requirements/test.in
-faker==23.3.0
+faker==24.2.0
     # via
     #   -r requirements/test.in
     #   factory-boy
@@ -182,7 +187,7 @@ mock==5.1.0
     # via -r requirements/test.in
 mysqlclient==2.2.4
     # via -r requirements/base.txt
-newrelic==9.7.0
+newrelic==9.7.1
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -197,7 +202,7 @@ openapi-codec==1.3.2
     #   django-rest-swagger
 opsgenie-sdk==2.1.5
     # via -r requirements/base.txt
-packaging==23.2
+packaging==24.0
     # via
     #   pyproject-api
     #   pytest
@@ -257,7 +262,7 @@ pynacl==1.5.0
     #   edx-django-utils
 pyproject-api==1.6.1
     # via tox
-pytest==8.0.2
+pytest==8.1.1
     # via
     #   pytest-cov
     #   pytest-django
@@ -265,7 +270,7 @@ pytest-cov==4.1.0
     # via -r requirements/test.in
 pytest-django==4.8.0
     # via -r requirements/test.in
-python-dateutil==2.8.2
+python-dateutil==2.9.0.post0
     # via
     #   -r requirements/base.txt
     #   faker
@@ -280,7 +285,6 @@ pytz==2024.1
     # via
     #   -r requirements/base.txt
     #   django
-    #   djangorestframework
 pyyaml==6.0.1
     # via
     #   -r requirements/base.txt
@@ -297,7 +301,7 @@ requests==2.31.0
     #   responses
     #   slumber
     #   social-auth-core
-requests-oauthlib==1.3.1
+requests-oauthlib==1.4.0
     # via
     #   -r requirements/base.txt
     #   social-auth-core
@@ -346,7 +350,7 @@ tenacity==8.2.3
     # via
     #   -r requirements/base.txt
     #   opsgenie-sdk
-testfixtures==8.0.0
+testfixtures==8.1.0
     # via -r requirements/base.txt
 text-unidecode==1.3
     # via python-slugify
@@ -359,7 +363,7 @@ tomli==2.0.1
     #   tox
 tomlkit==0.12.4
     # via pylint
-tox==4.13.0
+tox==4.14.1
     # via -r requirements/test.in
 typing-extensions==4.10.0
     # via
@@ -381,7 +385,7 @@ urllib3==2.2.1
     #   responses
 virtualenv==20.25.1
     # via tox
-zipp==3.17.0
+zipp==3.18.1
     # via
     #   -r requirements/base.txt
     #   importlib-resources
