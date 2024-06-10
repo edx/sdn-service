@@ -4,12 +4,16 @@
 #
 #    make upgrade
 #
-asgiref==3.7.2
+asgiref==3.8.1
     # via
     #   -r requirements/base.txt
     #   django
     #   django-cors-headers
-certifi==2024.2.2
+backports-zoneinfo==0.2.1
+    # via
+    #   -r requirements/base.txt
+    #   djangorestframework
+certifi==2024.6.2
     # via
     #   -r requirements/base.txt
     #   opsgenie-sdk
@@ -36,7 +40,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-cryptography==42.0.5
+cryptography==42.0.8
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -46,7 +50,7 @@ defusedxml==0.8.0rc2
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-django==3.2.24
+django==3.2.25
     # via
     #   -r requirements/base.txt
     #   django-cors-headers
@@ -77,44 +81,48 @@ django-waffle==4.1.0
     #   -r requirements/base.txt
     #   edx-django-utils
     #   edx-drf-extensions
-djangorestframework==3.14.0
+djangorestframework==3.15.1
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
     #   drf-jwt
     #   edx-drf-extensions
+dnspython==2.6.1
+    # via
+    #   -r requirements/base.txt
+    #   pymongo
 drf-jwt==1.19.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-edx-auth-backends==4.2.0
+edx-auth-backends==4.3.0
     # via -r requirements/base.txt
-edx-django-release-util==1.3.0
+edx-django-release-util==1.4.0
     # via -r requirements/base.txt
-edx-django-utils==5.10.1
+edx-django-utils==5.14.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
     #   edx-rest-api-client
-edx-drf-extensions==10.2.0
+edx-drf-extensions==10.3.0
     # via -r requirements/base.txt
-edx-opaque-keys==2.5.1
+edx-opaque-keys==2.9.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-edx-rest-api-client==5.6.1
+edx-rest-api-client==5.7.0
     # via -r requirements/base.txt
 gevent==24.2.1
     # via -r requirements/production.in
 greenlet==3.0.3
     # via gevent
-gunicorn==21.2.0
+gunicorn==22.0.0
     # via -r requirements/production.in
-idna==3.6
+idna==3.7
     # via
     #   -r requirements/base.txt
     #   requests
-importlib-resources==5.13.0
+importlib-resources==6.4.0
     # via
     #   -r requirements/base.txt
     #   pycountry
@@ -122,7 +130,7 @@ itypes==1.2.0
     # via
     #   -r requirements/base.txt
     #   coreapi
-jinja2==3.1.3
+jinja2==3.1.4
     # via
     #   -r requirements/base.txt
     #   coreschema
@@ -134,7 +142,7 @@ mysqlclient==2.2.4
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
-newrelic==9.7.0
+newrelic==9.10.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -149,7 +157,7 @@ openapi-codec==1.3.2
     #   django-rest-swagger
 opsgenie-sdk==2.1.5
     # via -r requirements/base.txt
-packaging==23.2
+packaging==24.1
     # via gunicorn
 pbr==6.0.0
     # via
@@ -159,9 +167,9 @@ psutil==5.9.8
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-pycountry==23.12.11
+pycountry==24.6.1
     # via -r requirements/base.txt
-pycparser==2.21
+pycparser==2.22
     # via
     #   -r requirements/base.txt
     #   cffi
@@ -173,7 +181,7 @@ pyjwt[crypto]==2.8.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pymongo==3.13.0
+pymongo==4.4.0
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
@@ -181,7 +189,7 @@ pynacl==1.5.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-python-dateutil==2.8.2
+python-dateutil==2.9.0.post0
     # via
     #   -r requirements/base.txt
     #   opsgenie-sdk
@@ -195,7 +203,6 @@ pytz==2024.1
     # via
     #   -r requirements/base.txt
     #   django
-    #   djangorestframework
 pyyaml==6.0.1
     # via
     #   -r requirements/base.txt
@@ -212,11 +219,11 @@ requests==2.31.0
     #   responses
     #   slumber
     #   social-auth-core
-requests-oauthlib==1.3.1
+requests-oauthlib==2.0.0
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-responses==0.25.0
+responses==0.25.2
     # via -r requirements/base.txt
 semantic-version==2.10.0
     # via
@@ -237,16 +244,16 @@ slumber==0.7.1
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
-social-auth-app-django==5.4.0
+social-auth-app-django==5.4.1
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
-social-auth-core==4.5.3
+social-auth-core==4.5.4
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
     #   social-auth-app-django
-sqlparse==0.4.4
+sqlparse==0.5.0
     # via
     #   -r requirements/base.txt
     #   django
@@ -255,13 +262,13 @@ stevedore==5.2.0
     #   -r requirements/base.txt
     #   edx-django-utils
     #   edx-opaque-keys
-tenacity==8.2.3
+tenacity==8.3.0
     # via
     #   -r requirements/base.txt
     #   opsgenie-sdk
-testfixtures==8.0.0
+testfixtures==8.3.0
     # via -r requirements/base.txt
-typing-extensions==4.10.0
+typing-extensions==4.12.2
     # via
     #   -r requirements/base.txt
     #   asgiref
@@ -276,13 +283,13 @@ urllib3==2.2.1
     #   opsgenie-sdk
     #   requests
     #   responses
-zipp==3.17.0
+zipp==3.19.2
     # via
     #   -r requirements/base.txt
     #   importlib-resources
 zope-event==5.0
     # via gevent
-zope-interface==6.2
+zope-interface==6.4.post2
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:
