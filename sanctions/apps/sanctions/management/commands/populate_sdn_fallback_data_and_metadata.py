@@ -53,7 +53,7 @@ class Command(BaseCommand):
         # download the CSV locally, to check size and pass along to import
         threshold = options['threshold']
         url = settings.CONSOLIDATED_SCREENING_LIST_URL
-        timeout = settings.SDN_CHECK_REQUEST_TIMEOUT
+        timeout = settings.SDN_BACKUP_REQUEST_TIMEOUT
 
         with requests.Session() as s:
             try:
