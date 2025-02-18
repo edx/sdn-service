@@ -1,52 +1,58 @@
 FROM ubuntu:focal as app
 MAINTAINER sre@edx.org
 
+# ENV variables for Python 3.12 support
+ARG PYTHON_VERSION=3.12
 
-# Packages installed:
+# software-properties-common is needed to setup Python 3.12 env
+RUN apt-get update && \
+  apt-get install -y software-properties-common && \
+  apt-add-repository -y ppa:deadsnakes/ppa
 
-# language-pack-en locales; ubuntu locale support so that system utilities have a consistent
-# language and time zone.
+# System requirements.
+RUN apt-get update
+RUN apt-get install -qy \
+	git-core \
+	language-pack-en \
+	build-essential \
+	# libmysqlclient-dev header files needed to use native C implementation for MySQL-python for performance gains.
+	libmysqlclient-dev \
+	# mysqlclient wont install without libssl-dev
+	libssl-dev \
+	# mysqlclient>=2.2.0 requires pkg-config (https://github.com/PyMySQL/mysqlclient/issues/620)
+	pkg-config \
+	curl \
+	python3-pip \
+	python${PYTHON_VERSION} \
+	python${PYTHON_VERSION}-dev
 
-# python; ubuntu doesnt ship with python, so this is the python we will use to run the application
+# need to use virtualenv pypi package with Python 3.12
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python${PYTHON_VERSION}
+RUN pip install virtualenv
 
-# python3-pip; install pip to install application requirements.txt files
-
-# libmysqlclient-dev; to install header files needed to use native C implementation for
-# MySQL-python for performance gains.
-
-# libssl-dev; # mysqlclient wont install without this.
-
-# python3-dev; to install header files for python extensions; much wheel-building depends on this
-
-# gcc; for compiling python extensions distributed with python packages like mysql-client
-
-# If you add a package here please include a comment above describing what it is used for
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -qy install --no-install-recommends \
- language-pack-en locales \
- python3.8 python3-dev python3-pip \
- # The mysqlclient Python package has install-time dependencies
- libmysqlclient-dev libssl-dev pkg-config \
- gcc \
- build-essential \
- git \
- wget
-
-
-RUN pip install --upgrade pip setuptools
 # delete apt package lists because we do not need them inflating our image
 RUN rm -rf /var/lib/apt/lists/*
 
+# Python is Python3.
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
+# Use UTF-8.
 RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 ENV DJANGO_SETTINGS_MODULE sanctions.settings.production
 
 EXPOSE 18770
 EXPOSE 18771
 RUN useradd -m --shell /bin/false app
+
+ENV VIRTUAL_ENV_DIR=/edx/app/sanctions/venv
+ENV PATH="$VIRTUAL_ENV_DIR/bin:$PATH"
+
+RUN virtualenv -p python${PYTHON_VERSION} --always-copy ${VIRTUAL_ENV_DIR}
+
+RUN pip install --upgrade pip setuptools
 
 WORKDIR /edx/app/sanctions
 
@@ -54,7 +60,6 @@ WORKDIR /edx/app/sanctions
 # this prevents the image cache from busting unless the dependencies have changed.
 COPY requirements/production.txt /edx/app/sanctions/requirements/production.txt
 
-# Dependencies are installed as root so they cannot be modified by the application user.
 RUN pip install -r requirements/production.txt
 
 RUN mkdir -p /edx/var/log

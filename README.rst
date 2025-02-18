@@ -26,7 +26,7 @@ One Time Setup
 
   # Set up a virtual environment with the same name as the repo
   # Here's how you might do that if you have virtualenvwrapper setup
-  mkvirtualenv -p python3.8 sanctions
+  mkvirtualenv -p python3.12 sanctions
   # Or using virtualenv setup
   python3 -m venv <venv>
 
